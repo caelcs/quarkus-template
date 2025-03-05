@@ -1,0 +1,42 @@
+package com.caelcs.adapter.in.rest;
+
+import com.caelcs.application.port.in.account.CreateAccountUseCase;
+import com.caelcs.model.account.Account;
+import com.caelcs.model.account.AccountType;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class AccountResourceTest {
+
+    @Mock
+    private CreateAccountUseCase createAccountUseCase;
+
+    @InjectMocks
+    private AccountResource resource;
+
+    @Test
+    void test_create_givenNonExistentAccount_thenSuccess() {
+        //Given
+        AccountCreateRequest request = AccountCreateRequest.builder().accountNumber("003445533").accountType(AccountType.DEBIT).build();
+
+        //And
+        Account expectedAccount = Account.builder().accountNumber(request.accountNumber()).accountType(request.accountType()).creationDate(LocalDate.now()).id(UUID.randomUUID()).build();
+        when(createAccountUseCase.create(request.accountNumber(), request.accountType())).thenReturn(expectedAccount);
+
+        //When
+        AccountResponse result = resource.create(request);
+
+        //Then
+        Assertions.assertNotNull(result);
+    }
+}
