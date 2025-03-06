@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
+    id("com.github.spotbugs") version "6.1.7"
 }
 
 repositories {
@@ -9,28 +10,28 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.quarkus:quarkus-jdbc-postgresql'
-    implementation 'io.quarkus:quarkus-hibernate-orm'
-    implementation 'io.quarkus:quarkus-rest-jackson'
-    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
-    implementation 'io.quarkus:quarkus-smallrye-health'
-    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation 'io.quarkus:quarkus-rest'
-    implementation 'io.quarkus:quarkus-arc'
-    testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.rest-assured:rest-assured'
-    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    implementation('io.quarkus:quarkus-jdbc-postgresql')
+    implementation('io.quarkus:quarkus-hibernate-orm')
+    implementation('io.quarkus:quarkus-rest-jackson')
+    implementation('io.quarkus:quarkus-hibernate-orm-panache')
+    implementation('io.quarkus:quarkus-smallrye-health')
+    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation('io.quarkus:quarkus-rest')
+    implementation('io.quarkus:quarkus-arc')
+    testImplementation('io.quarkus:quarkus-junit5')
+    testImplementation('io.rest-assured:rest-assured')
+    testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
 
-    testImplementation "com.tngtech.archunit:archunit:${archunitVersion}"
+    testImplementation("com.tngtech.archunit:archunit:${archunitVersion}")
 
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+    testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
 
-group 'com.caelcs'
-version '1.0.0-SNAPSHOT'
+group = 'com.caelcs'
+version = '1.0.0-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -40,6 +41,7 @@ java {
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
+
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-parameters'
@@ -48,3 +50,4 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
+
