@@ -1,5 +1,6 @@
 package com.caelcs.adapter.in.rest;
 
+import com.caelcs.application.dto.AccountDTO;
 import com.caelcs.application.port.in.account.CreateAccountUseCase;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountType;
@@ -31,12 +32,15 @@ class AccountResourceTest {
 
         //And
         Account expectedAccount = Account.builder().accountNumber(request.accountNumber()).accountType(request.accountType()).creationDate(LocalDate.now()).id(UUID.randomUUID()).build();
-        when(createAccountUseCase.create(request.accountNumber(), request.accountType())).thenReturn(expectedAccount);
+        AccountDTO accountDTO = AccountDTO.builder().accountNumber(request.accountNumber()).accountType(request.accountType()).build();
+        when(createAccountUseCase.create(accountDTO)).thenReturn(expectedAccount);
 
         //When
         AccountResponse result = resource.create(request);
 
         //Then
         Assertions.assertNotNull(result);
+        Assertions.assertEquals(expectedAccount.accountNumber(), result.accountNumber());
+        Assertions.assertEquals(expectedAccount.accountType(), result.accountType());
     }
 }

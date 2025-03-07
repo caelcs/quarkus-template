@@ -28,6 +28,12 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
     testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
+    implementation("org.mapstruct:mapstruct:${mapStructVersion}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
+    testImplementation("org.mapstruct:mapstruct:${mapStructVersion}")
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
+
 }
 
 group = 'com.caelcs'

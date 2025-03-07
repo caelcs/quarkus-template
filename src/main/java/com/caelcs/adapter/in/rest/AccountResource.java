@@ -17,10 +17,7 @@ public class AccountResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     public AccountResponse create(AccountCreateRequest accountCreateRequest) {
-        Account account = createAccountUseCase.create(accountCreateRequest.accountNumber(), accountCreateRequest.accountType());
-        return AccountResponse.builder()
-                .accountNumber(account.accountNumber())
-                .accountType(account.accountType())
-                .build();
+        Account account = createAccountUseCase.create(accountCreateRequest.toAccountDTO());
+        return AccountResponse.fromAccount(account);
     }
 }
