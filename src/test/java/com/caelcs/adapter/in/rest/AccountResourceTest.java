@@ -28,11 +28,11 @@ class AccountResourceTest {
     @Test
     void test_create_givenNonExistentAccount_thenSuccess() {
         //Given
-        AccountCreateRequest request = AccountCreateRequest.builder().accountNumber("003445533").accountType(AccountType.DEBIT).build();
+        AccountCreateRequest request = AccountCreateRequestMother.base();
 
         //And
-        Account expectedAccount = Account.builder().accountNumber(request.accountNumber()).accountType(request.accountType()).creationDate(LocalDate.now()).id(UUID.randomUUID()).build();
-        AccountDTO accountDTO = AccountDTO.builder().accountNumber(request.accountNumber()).accountType(request.accountType()).build();
+        Account expectedAccount = AccountMother.base(request.accountNumber(), request.accountType());
+        AccountDTO accountDTO = AccountDTOMother.base(request.accountNumber(), request.accountType());
         when(createAccountUseCase.create(accountDTO)).thenReturn(expectedAccount);
 
         //When
