@@ -13,6 +13,8 @@ class DependencyRuleTest {
   private static final String APPLICATION_PACKAGE = "application";
   private static final String PORT_PACKAGE = "application.port";
   private static final String SERVICE_PACKAGE = "application.service";
+  private static final String APPLICATION_DTO_PACKAGE = "application.dto";
+
   private static final String ADAPTER_PACKAGE = "adapter";
   private static final String BOOTSTRAP_PACKAGE = "bootstrap";
 
@@ -24,6 +26,7 @@ class DependencyRuleTest {
     checkNoDependencyFromTo(MODEL_PACKAGE, APPLICATION_PACKAGE, classesToCheck);
     checkNoDependencyFromTo(MODEL_PACKAGE, ADAPTER_PACKAGE, classesToCheck);
     checkNoDependencyFromTo(MODEL_PACKAGE, BOOTSTRAP_PACKAGE, classesToCheck);
+    checkNoDependencyFromTo(MODEL_PACKAGE, APPLICATION_DTO_PACKAGE, classesToCheck);
 
     checkNoDependencyFromTo(APPLICATION_PACKAGE, ADAPTER_PACKAGE, classesToCheck);
     checkNoDependencyFromTo(APPLICATION_PACKAGE, BOOTSTRAP_PACKAGE, classesToCheck);
@@ -32,6 +35,8 @@ class DependencyRuleTest {
 
     checkNoDependencyFromTo(ADAPTER_PACKAGE, SERVICE_PACKAGE, classesToCheck);
     checkNoDependencyFromTo(ADAPTER_PACKAGE, BOOTSTRAP_PACKAGE, classesToCheck);
+
+    checkNoDependencyFromTo(APPLICATION_DTO_PACKAGE, ADAPTER_PACKAGE, classesToCheck);
   }
 
   private void checkNoDependencyFromTo(
