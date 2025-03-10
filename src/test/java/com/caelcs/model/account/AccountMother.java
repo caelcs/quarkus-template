@@ -1,7 +1,4 @@
-package com.caelcs.adapter.in.rest;
-
-import com.caelcs.model.account.Account;
-import com.caelcs.model.account.AccountType;
+package com.caelcs.model.account;
 
 import java.time.LocalDate;
 import java.util.UUID;

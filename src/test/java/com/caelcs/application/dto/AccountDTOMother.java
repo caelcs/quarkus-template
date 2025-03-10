@@ -1,6 +1,5 @@
-package com.caelcs.adapter.in.rest;
+package com.caelcs.application.dto;
 
-import com.caelcs.application.dto.AccountDTO;
 import com.caelcs.model.account.AccountType;
 
 public class AccountDTOMother {

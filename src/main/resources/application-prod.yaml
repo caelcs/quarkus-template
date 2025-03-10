@@ -1,0 +1,8 @@
+quarkus:
+  datasource:
+    db-kind: postgresql
+    username: template
+    password: IAmMasterChief
+    jdbc:
+      url: jdbc:postgresql://postgres-template-pg:5432/hibernate_orm_test
+      max-size: 16

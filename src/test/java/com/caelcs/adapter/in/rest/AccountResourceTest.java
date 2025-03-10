@@ -1,18 +1,16 @@
 package com.caelcs.adapter.in.rest;
 
 import com.caelcs.application.dto.AccountDTO;
+import com.caelcs.application.dto.AccountDTOMother;
 import com.caelcs.application.port.in.account.CreateAccountUseCase;
 import com.caelcs.model.account.Account;
-import com.caelcs.model.account.AccountType;
+import com.caelcs.model.account.AccountMother;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 

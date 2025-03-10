@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-liquibase'
+    implementation 'io.quarkus:quarkus-config-yaml'
     implementation('io.quarkus:quarkus-jdbc-postgresql')
     implementation('io.quarkus:quarkus-hibernate-orm')
     implementation('io.quarkus:quarkus-rest-jackson')
@@ -18,6 +20,8 @@ dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation('io.quarkus:quarkus-rest')
     implementation('io.quarkus:quarkus-arc')
+
+    testImplementation('io.quarkus:quarkus-jdbc-h2')
     testImplementation('io.quarkus:quarkus-junit5')
     testImplementation('io.rest-assured:rest-assured')
     testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")

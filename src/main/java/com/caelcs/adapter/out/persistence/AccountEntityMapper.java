@@ -1,4 +1,4 @@
-package com.caelcs.application.dto;
+package com.caelcs.adapter.out.persistence;
 
 import com.caelcs.model.account.Account;
 import org.mapstruct.Mapper;
@@ -6,11 +6,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-interface AccountDTOMapper {
-    AccountDTOMapper INSTANCE = Mappers.getMapper(AccountDTOMapper.class);
+interface AccountEntityMapper {
+    AccountEntityMapper INSTANCE = Mappers.getMapper(AccountEntityMapper.class);
 
     @Mapping(target = "accountNumber", source = "accountNumber")
     @Mapping(target = "accountType", source = "accountType")
-    Account toAccount(AccountDTO fromAccountDTO);
-
+    @Mapping(target = "id", source = "id")
+    AccountEntity fromAccount(Account account);
 }
