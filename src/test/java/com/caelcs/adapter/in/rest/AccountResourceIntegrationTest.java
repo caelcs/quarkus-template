@@ -2,6 +2,7 @@ package com.caelcs.adapter.in.rest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ class AccountResourceIntegrationTest {
                 .when()
                 .post("/accounts")
                 .then()
-                .statusCode(201) // Expect HTTP 201 Created
+                .statusCode(Response.Status.CREATED.getStatusCode()) // Expect HTTP 201 Created
                 .extract()
                 .response().as(AccountResponse.class);
 
