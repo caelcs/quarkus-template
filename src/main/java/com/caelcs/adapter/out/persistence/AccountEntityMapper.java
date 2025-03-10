@@ -13,4 +13,10 @@ interface AccountEntityMapper {
     @Mapping(target = "accountType", source = "accountType")
     @Mapping(target = "id", source = "id")
     AccountEntity fromAccount(Account account);
+
+    @Mapping(target = "accountNumber", source = "accountNumber")
+    @Mapping(target = "accountType", source = "accountType")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "creationDate", source = "creationDate")
+    Account toAccount(AccountEntity account);
 }

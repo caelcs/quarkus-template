@@ -5,7 +5,9 @@ import com.caelcs.model.account.AccountType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -13,6 +15,8 @@ import java.util.UUID;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "accounts")
 public class AccountEntity {
 
@@ -33,4 +37,7 @@ public class AccountEntity {
         return AccountEntityMapper.INSTANCE.fromAccount(account);
     }
 
+    public static Account toAccount(AccountEntity accountEntity) {
+        return AccountEntityMapper.INSTANCE.toAccount(accountEntity);
+    }
 }
