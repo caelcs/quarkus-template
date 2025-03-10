@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
+import org.jboss.resteasy.reactive.ResponseStatus;
 
 @Path("accounts")
 @AllArgsConstructor
@@ -16,6 +17,7 @@ public class AccountResource {
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
+    @ResponseStatus(201)
     public AccountResponse create(AccountCreateRequest accountCreateRequest) {
         Account account = createAccountUseCase.create(accountCreateRequest.toAccountDTO());
         return AccountResponse.fromAccount(account);
