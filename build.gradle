@@ -10,12 +10,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.quarkiverse.wiremock:quarkus-wiremock:1.4.1'
-    implementation 'io.quarkus:quarkus-rest-client-jackson'
-    implementation 'io.quarkus:quarkus-hibernate-validator'
-    implementation 'io.quarkus:quarkus-smallrye-openapi'
-    implementation 'io.quarkus:quarkus-liquibase'
-    implementation 'io.quarkus:quarkus-config-yaml'
+    implementation('io.quarkus:quarkus-rest-client-jackson')
+    implementation('io.quarkus:quarkus-hibernate-validator')
+    implementation('io.quarkus:quarkus-smallrye-openapi')
+    implementation('io.quarkus:quarkus-liquibase')
+    implementation('io.quarkus:quarkus-config-yaml')
     implementation('io.quarkus:quarkus-jdbc-postgresql')
     implementation('io.quarkus:quarkus-hibernate-orm')
     implementation('io.quarkus:quarkus-rest-jackson')
@@ -42,12 +41,9 @@ dependencies {
     testImplementation("org.mapstruct:mapstruct:${mapStructVersion}")
     testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
 
-}
+    testImplementation("io.quarkiverse.wiremock:quarkus-wiremock:${quarkusWiremockVersion}")
+    testImplementation("io.quarkiverse.wiremock:quarkus-wiremock-test:${quarkusWiremockVersion}")
 
-group = 'com.caelcs'
-version = '1.0.0-SNAPSHOT'
-
-java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }

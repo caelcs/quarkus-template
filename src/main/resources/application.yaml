@@ -9,3 +9,7 @@ quarkus:
   liquibase:
     migrate-at-start: true
     change-log: db/changeLog.xml
+
+  rest-client:
+    transactions-api:
+      url: http://localhost:8090

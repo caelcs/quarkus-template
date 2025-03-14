@@ -6,15 +6,20 @@ import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
 import com.caelcs.model.account.AccountType;
 import com.caelcs.model.transaction.Transaction;
 import jakarta.enterprise.context.ApplicationScoped;
-import lombok.AllArgsConstructor;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
 
 @ApplicationScoped
-@AllArgsConstructor
 public class GetTransactionsService implements GetTransactionsCase {
 
-    private TransactionsClient transactionsClient;
+    final private TransactionsClient transactionsClient;
+
+    @Inject
+    public GetTransactionsService(@RestClient TransactionsClient transactionsClient) {
+        this.transactionsClient = transactionsClient;
+    }
 
     @Override
     public List<Transaction> getTransactionsByAccount(String accountNumber, AccountType accountType) {
