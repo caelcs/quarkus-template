@@ -18,7 +18,8 @@ libraries.
 - ✅ Using Hexagonal Architecture             
 - ✅ Use of Yaml Configuration Files          
 - ✅ Loading configurations from yaml to class
-- ✅ Use of MapStruct                         
+- ✅ Use of MapStruct
+- ❌ Use of logging and log levels
      
 In terms of testing:
 
@@ -26,7 +27,8 @@ In terms of testing:
 - ✅ Using Mocks                              
 - ✅ Use of Architecture Unit Test            
 - ✅ Use of Wiremock for stubs                
-- ❌ Use of GatLing for Stress Tests           
+- ❌ Use of GatLing for Stress Tests
+- ❌ Use of E2E tests using BDD and Cucumber
 
 ## Running the application in dev mode
 
