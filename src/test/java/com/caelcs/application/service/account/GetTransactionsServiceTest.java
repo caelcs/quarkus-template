@@ -5,6 +5,7 @@ import com.caelcs.application.port.out.rest.transaction.TransactionsResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponseMother;
 import com.caelcs.model.account.AccountType;
 import com.caelcs.model.transaction.Transaction;
+import org.jboss.resteasy.reactive.RestResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,7 @@ class GetTransactionsServiceTest {
         //And
         TransactionsResponse expectedTransactionResponse = TransactionsResponseMother.base();
         when(client.getTransactionsByAccountNumberAndType(eq(accountNumber), eq(accountType)))
-                .thenReturn(expectedTransactionResponse);
+                .thenReturn(RestResponse.ok(expectedTransactionResponse));
 
         //When
         List<Transaction> results = service.getTransactionsByAccount(accountNumber, accountType);
@@ -55,7 +56,7 @@ class GetTransactionsServiceTest {
         //And
         TransactionsResponse expectedTransactionResponse = TransactionsResponseMother.baseNoTransactions();
         when(client.getTransactionsByAccountNumberAndType(eq(accountNumber), eq(accountType)))
-                .thenReturn(expectedTransactionResponse);
+                .thenReturn(RestResponse.ok(expectedTransactionResponse));
 
         //When
         List<Transaction> results = service.getTransactionsByAccount(accountNumber, accountType);

@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    implementation('io.quarkus:quarkus-jsonb')
+    implementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
     implementation('io.quarkus:quarkus-rest-client-jackson')
     implementation('io.quarkus:quarkus-hibernate-validator')
     implementation('io.quarkus:quarkus-smallrye-openapi')

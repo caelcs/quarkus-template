@@ -7,26 +7,26 @@ If you want to learn more about Quarkus, please visit its website: <https://quar
 The goal of ths template is to give the engineers a quick look how to use the most common 
 libraries.
 
-- Exposing REST Endpoints                   ✅
-- Pagination                                ❌
-- Database Integration                      ✅
-- Declaring beans in configuration classes  ✅
-- Exposing Metrics Endpoints                ✅
-- Exposing Health Endpoints                 ✅
-- Use of REST Clients                       ❌
-- Generating and Exposing Swagger           ✅
-- Using Hexagonal Architecture              ✅
-- Use of Yaml Configuration Files           ✅
-- Loading configurations from yaml to class ✅
-- Use of MapStruct                          ✅
-
+- ✅ Exposing REST Endpoints                  
+- ❌ Pagination                               
+- ✅ Database Integration                     
+- ✅ Declaring beans in configuration classes 
+- ✅ Exposing Metrics Endpoints               
+- ✅ Exposing Health Endpoints                
+- ✅ Use of REST Clients                      
+- ✅ Generating and Exposing Swagger          
+- ✅ Using Hexagonal Architecture             
+- ✅ Use of Yaml Configuration Files          
+- ✅ Loading configurations from yaml to class
+- ✅ Use of MapStruct                         
+     
 In terms of testing:
 
-- Integration Tests                         ✅
-- Using Mocks                               ✅
-- Use of Architecture Unit Test             ✅
-- Use of Wiremock for stubs                 ❌
-- Use of GatLing for Stress Tests           ❌ 
+- ✅ Integration Tests                        
+- ✅ Using Mocks                              
+- ✅ Use of Architecture Unit Test            
+- ✅ Use of Wiremock for stubs                
+- ❌ Use of GatLing for Stress Tests           
 
 ## Running the application in dev mode
 

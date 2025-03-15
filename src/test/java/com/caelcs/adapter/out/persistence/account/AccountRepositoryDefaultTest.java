@@ -1,6 +1,7 @@
 package com.caelcs.adapter.out.persistence.account;
 
 import com.caelcs.adapter.out.persistence.AccountRepositoryDefault;
+import com.caelcs.adapter.out.rest.transaction.TransactionsConfig;
 import com.caelcs.application.port.out.persistence.account.AccountEntity;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountMother;
@@ -18,6 +19,9 @@ class AccountRepositoryDefaultTest {
 
     @Inject
     private AccountRepositoryDefault repository;
+
+    @Inject
+    private TransactionsConfig config;
 
     @Test
     @Transactional
