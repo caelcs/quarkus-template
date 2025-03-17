@@ -47,13 +47,41 @@ dependencies {
     testImplementation("io.quarkiverse.wiremock:quarkus-wiremock:${quarkusWiremockVersion}")
     testImplementation("io.quarkiverse.wiremock:quarkus-wiremock-test:${quarkusWiremockVersion}")
 
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.9.3")
-    testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.9.3")
+    compileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
+    testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
+
+    testImplementation("io.quarkiverse.cucumber:quarkus-cucumber:${cucumberVersion}")
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+sourceSets {
+    e2eTest {
+        java.srcDir("src/e2e-test/java")
+        resources.srcDir("src/e2e-test/resources")
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    e2eTestImplementation.extendsFrom(testImplementation)
+    e2eTestRuntimeOnly.extendsFrom(testRuntimeOnly)
+}
+
+task e2eTest(type: Test) {
+    description = "Runs Cucumber end-to-end tests."
+    group = "verification"
+    testClassesDirs = sourceSets.e2eTest.output.classesDirs
+    classpath = sourceSets.e2eTest.runtimeClasspath
+    useJUnitPlatform()
+}
+
+tasks.named("check") {
+    dependsOn("e2eTest")
 }
 
 test {
