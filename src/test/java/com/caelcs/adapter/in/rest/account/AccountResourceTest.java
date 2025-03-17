@@ -41,7 +41,7 @@ class AccountResourceTest {
     @Test
     void test_create_givenNonExistentAccount_thenSuccess() {
         //Given
-        AccountCreateRequest request = AccountCreateRequestMother.base();
+        AccountCreateWebModel request = AccountCreateWebModelMother.base();
 
         //And
         Account expectedAccount = AccountMother.base(request.accountNumber(), request.accountType());
@@ -49,7 +49,7 @@ class AccountResourceTest {
         when(createAccountUseCase.create(accountDTO)).thenReturn(expectedAccount);
 
         //When
-        AccountResponse result = resource.create(request);
+        AccountWebModel result = resource.create(request);
 
         //Then
         Assertions.assertNotNull(result);
@@ -74,7 +74,7 @@ class AccountResourceTest {
                 .thenReturn(List.of(expectedTransaction));
 
         //When
-        AccountResponse result = resource.getAccountByAccountNumberAndType(accountNumber, accountType);
+        AccountWebModel result = resource.getAccountByAccountNumberAndType(accountNumber, accountType);
 
         //Then
         Assertions.assertNotNull(result);
@@ -88,8 +88,7 @@ class AccountResourceTest {
         assertTransaction(expectedTransaction, result);
     }
 
-    private static void assertTransaction(Transaction expectedTransaction, AccountResponse result) {
-        Assertions.assertEquals(expectedTransaction.id(), result.transactions().getFirst().id());
+    private static void assertTransaction(Transaction expectedTransaction, AccountWebModel result) {
         Assertions.assertEquals(expectedTransaction.type(), result.transactions().getFirst().type());
         Assertions.assertEquals(expectedTransaction.amount(), result.transactions().getFirst().amount());
         Assertions.assertEquals(expectedTransaction.description(), result.transactions().getFirst().description());

@@ -29,20 +29,22 @@ public class AccountResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseStatus(201)
-    public AccountResponse create(@Valid AccountCreateRequest accountCreateRequest) {
-        Account account = createAccountUseCase.create(accountCreateRequest.toAccountDTO());
-        return AccountResponse.fromAccount(account);
+    public AccountWebModel create(@Valid AccountCreateWebModel accountCreateWebModel) {
+        Account account = createAccountUseCase.create(accountCreateWebModel.toAccountDTO());
+        return AccountWebModel.fromAccount(account);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseStatus(200)
-    public AccountResponse getAccountByAccountNumberAndType(@QueryParam("accountNumber") String accountNumber,
+    public AccountWebModel getAccountByAccountNumberAndType(@QueryParam("accountNumber") String accountNumber,
                                                             @QueryParam("accountType") AccountType accountType) {
         return getAccountUseCase.getAccountByAccountNumberAndType(accountNumber, accountType)
-                .map(AccountResponse::fromAccount)
+                .map(AccountWebModel::fromAccount)
                 .map(it -> it.toBuilder()
-                        .transactions(getTransactionsCase.getTransactionsByAccount(accountNumber, accountType))
+                        .transactions(getTransactionsCase.getTransactionsByAccount(accountNumber, accountType).stream()
+                                .map(TransactionWebModel::fromTransaction)
+                                .toList())
                         .build())
                 .orElseThrow(() -> new EntityNotFoundException("Entity Not Found"));
     }

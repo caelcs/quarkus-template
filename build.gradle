@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation('io.quarkus:quarkus-micrometer-registry-prometheus')
     implementation('io.quarkus:quarkus-jsonb')
     implementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
     implementation('io.quarkus:quarkus-rest-client-jackson')
@@ -46,6 +47,11 @@ dependencies {
     testImplementation("io.quarkiverse.wiremock:quarkus-wiremock:${quarkusWiremockVersion}")
     testImplementation("io.quarkiverse.wiremock:quarkus-wiremock-test:${quarkusWiremockVersion}")
 
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.9.3")
+    testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.9.3")
+}
+
+java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }

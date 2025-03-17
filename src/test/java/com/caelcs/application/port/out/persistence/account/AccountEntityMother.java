@@ -8,11 +8,14 @@ import java.util.UUID;
 public class AccountEntityMother {
 
     public static AccountEntity base() {
-        return new AccountEntity(
-                UUID.randomUUID(),
-                "234234234234",
-                AccountType.DEBIT,
-                LocalDate.now());
+        return base("3688544544", AccountType.DEBIT);
     }
 
+    public static AccountEntity base(String accountNumber, AccountType accountType) {
+        return new AccountEntity(
+                UUID.randomUUID(),
+                accountNumber,
+                accountType,
+                LocalDate.now());
+    }
 }

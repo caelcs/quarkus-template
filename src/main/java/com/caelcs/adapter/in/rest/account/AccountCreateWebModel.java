@@ -7,13 +7,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder(toBuilder = true)
-public record AccountCreateRequest(
+public record AccountCreateWebModel(
         @NotBlank(message="accountNumber may not be blank") String accountNumber,
         @NotNull(message="accountType may not be absent") AccountType accountType
 ) {
 
     AccountDTO toAccountDTO() {
-        return AccountCreateRequestMapper.INSTANCE.toAccountDTOFrom(this);
+        return AccountCreateWebModelMapper.INSTANCE.toAccountDTOFrom(this);
     }
 
 }

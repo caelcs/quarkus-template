@@ -4,12 +4,12 @@ import com.caelcs.model.account.AccountType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.quarkiverse.wiremock.devservice.ConnectWireMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,7 @@ import static org.jboss.resteasy.reactive.RestResponse.Status.OK;
 
 @QuarkusTest
 @ConnectWireMock
+@SuppressFBWarnings(value = {"UwF", "NP"}, justification = "This list is safely managed elsewhere")
 class TransactionsClientTest {
 
     WireMock wireMock;
@@ -61,7 +62,7 @@ class TransactionsClientTest {
     }
 
     @Test
-    void test_getTransactionsByAccountNumberAndType_GivenNonExiting_thenNotFound() throws JsonProcessingException {
+    void test_getTransactionsByAccountNumberAndType_GivenNonExiting_thenNotFound() {
         //Given
         String accountNumber = "3343456323";
         AccountType accountType = AccountType.DEBIT;

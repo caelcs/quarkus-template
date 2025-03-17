@@ -5,7 +5,7 @@ import com.caelcs.model.account.AccountMother;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class AccountResponseTest {
+class AccountWebModelTest {
 
     @Test
     void test_fromAccount_success() {
@@ -13,7 +13,7 @@ class AccountResponseTest {
         Account account = AccountMother.base();
 
         //When
-        AccountResponse result = AccountResponse.fromAccount(account);
+        AccountWebModel result = AccountWebModel.fromAccount(account);
 
         //Then
         Assertions.assertNotNull(result);

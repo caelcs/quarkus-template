@@ -23,7 +23,7 @@ libraries.
      
 In terms of testing:
 
-- ✅ Integration Tests                        
+- ✅ Integration Tests (JVM and Native mode)                        
 - ✅ Using Mocks                              
 - ✅ Use of Architecture Unit Test            
 - ✅ Use of Wiremock for stubs                
