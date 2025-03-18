@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'io.quarkus'
     id("com.github.spotbugs") version "6.1.7"
+    id "com.tngtech.jgiven.gradle-plugin" version "2.0.2"
 }
 
 repositories {
@@ -50,7 +51,14 @@ dependencies {
     compileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
     testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
 
-    testImplementation("io.quarkiverse.cucumber:quarkus-cucumber:${cucumberVersion}")
+    // JGiven for JUnit 5
+    testImplementation("com.tngtech.jgiven:jgiven-junit5:${jGivenVersion}")
+    testImplementation("com.tngtech.jgiven:jgiven-html5-report:${jGivenVersion}")
+
+
+    // Quarkus Testing
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
 }
 
 java {
@@ -58,34 +66,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
-sourceSets {
-    e2eTest {
-        java.srcDir("src/e2e-test/java")
-        resources.srcDir("src/e2e-test/resources")
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-    }
-}
-
-configurations {
-    e2eTestImplementation.extendsFrom(testImplementation)
-    e2eTestRuntimeOnly.extendsFrom(testRuntimeOnly)
-}
-
-task e2eTest(type: Test) {
-    description = "Runs Cucumber end-to-end tests."
-    group = "verification"
-    testClassesDirs = sourceSets.e2eTest.output.classesDirs
-    classpath = sourceSets.e2eTest.runtimeClasspath
-    useJUnitPlatform()
-}
-
-tasks.named("check") {
-    dependsOn("e2eTest")
-}
-
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 compileJava {
