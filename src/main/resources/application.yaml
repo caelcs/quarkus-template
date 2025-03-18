@@ -1,4 +1,5 @@
 quarkus:
+
   datasource:
     db-kind: h2
     username: username-default
