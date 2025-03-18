@@ -28,7 +28,7 @@ In terms of testing:
 - ✅ Use of Architecture Unit Test            
 - ✅ Use of Wiremock for stubs                
 - ❌ Use of GatLing for Stress Tests
-- ❌ Use of E2E tests using BDD and Cucumber
+- ✅ Use of BDD and JGiven as Native Integration Test
 
 ## Running the application in dev mode
 

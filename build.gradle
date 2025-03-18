@@ -52,13 +52,13 @@ dependencies {
     testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
 
     // JGiven for JUnit 5
-    testImplementation("com.tngtech.jgiven:jgiven-junit5:${jGivenVersion}")
-    testImplementation("com.tngtech.jgiven:jgiven-html5-report:${jGivenVersion}")
+    nativeTestImplementation("com.tngtech.jgiven:jgiven-junit5:${jGivenVersion}")
+    nativeTestImplementation("com.tngtech.jgiven:jgiven-html5-report:${jGivenVersion}")
 
 
     // Quarkus Testing
-    testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.rest-assured:rest-assured'
+    nativeTestImplementation 'io.quarkus:quarkus-junit5'
+    nativeTestImplementation 'io.rest-assured:rest-assured'
 }
 
 java {
