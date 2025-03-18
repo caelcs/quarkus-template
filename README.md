@@ -90,3 +90,15 @@ If you want to learn more about building native executables, please consult <htt
 Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+## Running Native Tests
+
+By default at the time of creating this template Quarkus is using PROD profile for building the native image and running the native tests.
+
+In order to run these testing against the native image using test config, I have created a profile called native-test with an specific application yaml file which
+override the database for a h2.
+
+```shell
+./gradlew clean testNative -Dquarkus.profile=native-test
+```
+

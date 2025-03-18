@@ -4,14 +4,5 @@ quarkus:
     db-kind: h2
     username: username-default
     jdbc:
-      url: jdbc:h2:mem:testdb
+      url: jdbc:h2:mem:testdb-native
       max-size: 13
-
-  liquibase:
-    migrate-at-start: true
-    change-log: db/changeLog.xml
-
-  rest-client:
-    transactions-api:
-      url: http://localhost:8090
-
