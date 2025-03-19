@@ -1,11 +1,11 @@
-package com.caelcs.nativeTest.account;
+package com.caelcs.nativeTest.helloworld;
 
 import com.tngtech.jgiven.junit5.ScenarioTest;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 import org.junit.jupiter.api.Test;
 
 @QuarkusIntegrationTest
-public class GreetingE2ETest extends ScenarioTest<GreetingGiven, GreetingWhen, GreetingThen> {
+public class GreetingIT extends ScenarioTest<GreetingGiven, GreetingWhen, GreetingThen> {
 
     @Test
     void should_return_correct_greeting() {
