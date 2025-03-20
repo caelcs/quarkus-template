@@ -8,7 +8,8 @@ The goal of ths template is to give the engineers a quick look how to use the mo
 libraries.
 
 - ✅ Exposing REST Endpoints                  
-- ❌ Pagination                               
+- ❌ Pagination
+- ❌ Audit for tables
 - ✅ Database Integration                     
 - ✅ Declaring beans in configuration classes 
 - ✅ Exposing Metrics Endpoints               
