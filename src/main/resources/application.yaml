@@ -24,4 +24,9 @@ quarkus:
   rest-client:
     transactions-api:
       url: http://localhost:8090
+      connection-pool-size: 20
+      max-connections: 50
+      connection-ttl: 60
+      connection-timeout: 10
+      idle-timeout: 30
 

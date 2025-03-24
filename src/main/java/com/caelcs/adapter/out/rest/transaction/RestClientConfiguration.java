@@ -21,6 +21,11 @@ public class RestClientConfiguration {
     public TransactionsClient transactionsClient() {
         return QuarkusRestClientBuilder.newBuilder()
                 .baseUri(URI.create(config.url()))
+                .property("resteasy.connectionPoolSize", config.connectionPoolSize())
+                .property("resteasy.maxConnections", config.maxConnections())
+                .property("resteasy.connectionTTL", config.connectionTtl())
+                .property("resteasy.connectionTimeout", config.connectionTimeout())
+                .property("resteasy.idleTimeout", config.idleTimeout())
                 .disableDefaultMapper(true)
                 .register(MDCClientRequestFilter.class)
                 .build(TransactionsClient.class);

@@ -7,5 +7,10 @@ import io.smallrye.config.ConfigMapping;
 public interface TransactionsConfig {
 
     String url();
+    Long connectionPoolSize();
+    Long maxConnections();
+    Long connectionTtl();
+    Long connectionTimeout();
+    Long idleTimeout();
 
 }
