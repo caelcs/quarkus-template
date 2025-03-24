@@ -16,7 +16,7 @@ libraries.
 - ✅ Declaring beans in configuration classes
 - ✅ Exposing Metrics Endpoints
 - ✅ Exposing Health Endpoints
-- ✅ Use of REST Clients with a connection poll
+- ❌ Use of REST Clients with a connection poll
 - ✅ Generating and Exposing Swagger
 - ✅ Using Hexagonal Architecture
 - ✅ Use of Yaml Configuration Files
