@@ -13,11 +13,12 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.slf4j.MDC;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import java.util.UUID;
+
+import static com.caelcs.adapter.out.rest.MDCClientRequestFilter.X_CORRELATION_ID;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 import static org.jboss.resteasy.reactive.RestResponse.Status.NOT_FOUND;
 import static org.jboss.resteasy.reactive.RestResponse.Status.OK;
@@ -42,10 +43,15 @@ class TransactionsClientTest {
         AccountType accountType = AccountType.DEBIT;
 
         //And
+        String expectedCorrelationId = UUID.randomUUID().toString();
+        MDC.put("correlationId", expectedCorrelationId);
+
+        //And
         TransactionsResponse expectedTransactionsResponse = TransactionsResponseMother.base();
         wireMock.register(get(urlPathEqualTo("/transactions"))
                 .withQueryParam("accountNumber", equalTo(accountNumber))
                 .withQueryParam("accountType", equalTo(accountType.name()))
+                .withHeader(X_CORRELATION_ID, equalTo(expectedCorrelationId))
                 .willReturn(aResponse()
                         .withStatus(OK.getStatusCode())
                         .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON)
@@ -68,9 +74,14 @@ class TransactionsClientTest {
         AccountType accountType = AccountType.DEBIT;
 
         //And
+        String expectedCorrelationId = UUID.randomUUID().toString();
+        MDC.put("correlationId", expectedCorrelationId);
+
+        //And
         wireMock.register(get(urlPathEqualTo("/transactions"))
                 .withQueryParam("accountNumber", equalTo(accountNumber))
                 .withQueryParam("accountType", equalTo(accountType.name()))
+                .withHeader(X_CORRELATION_ID, equalTo(expectedCorrelationId))
                 .willReturn(aResponse()
                         .withStatus(NOT_FOUND.getStatusCode())));
 

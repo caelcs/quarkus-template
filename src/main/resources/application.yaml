@@ -8,7 +8,7 @@ quarkus:
     level: INFO
     category:
       "org.hibernate":
-        level: DEBUG
+        level: INFO
 
   datasource:
     db-kind: h2

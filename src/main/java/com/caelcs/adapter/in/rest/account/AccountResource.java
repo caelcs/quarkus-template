@@ -7,14 +7,15 @@ import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountType;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
 import org.jboss.resteasy.reactive.ResponseStatus;
+import org.slf4j.MDC;
+
+import java.util.UUID;
+
+import static com.caelcs.adapter.out.rest.MDCClientRequestFilter.CORRELATION_ID;
 
 @Path("accounts")
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class AccountResource {
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseStatus(201)
     public AccountWebModel create(@Valid AccountCreateWebModel accountCreateWebModel) {
+        MDC.put(CORRELATION_ID, UUID.randomUUID().toString());
         Account account = createAccountUseCase.create(accountCreateWebModel.toAccountDTO());
         return AccountWebModel.fromAccount(account);
     }
@@ -39,6 +41,7 @@ public class AccountResource {
     @ResponseStatus(200)
     public AccountWebModel getAccountByAccountNumberAndType(@QueryParam("accountNumber") String accountNumber,
                                                             @QueryParam("accountType") AccountType accountType) {
+        MDC.put(CORRELATION_ID, UUID.randomUUID().toString());
         return getAccountUseCase.getAccountByAccountNumberAndType(accountNumber, accountType)
                 .map(AccountWebModel::fromAccount)
                 .map(it -> it.toBuilder()
