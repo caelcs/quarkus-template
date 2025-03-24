@@ -81,6 +81,21 @@ class AccountResourceIntegrationTest {
         Assertions.assertEquals(1, result.transactions().size());
     }
 
+    @Test
+    void test_get_account_givenNoAccount_then404() {
+        //Given
+        Account account = AccountMother.base("99076323434", AccountType.CREDIT);
+
+        //When and Then
+        given()
+                .queryParam("accountNumber", account.accountNumber())
+                .queryParam("accountType", account.accountType())
+                .when()
+                .get("/accounts")
+                .then()
+                .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
     @ParameterizedTest
     @CsvSource({",DEBIT", "32323232,", ",", "'',DEBIT"})
     void test_create_accounts_endpoint_whenInvalidValuesInPayload_thenFailed(String accountNumber, AccountType accountType) {

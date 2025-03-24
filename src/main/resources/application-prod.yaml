@@ -1,4 +1,11 @@
 quarkus:
+
+  log:
+    level: ERROR
+    category:
+      "org.hibernate":
+        level: WARN
+
   datasource:
     db-kind: postgresql
     username: template

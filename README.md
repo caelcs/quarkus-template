@@ -4,30 +4,35 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
-The goal of ths template is to give the engineers a quick look how to use the most common 
+The goal of ths template is to give the engineers a quick look how to use the most common
 libraries.
 
-- ✅ Exposing REST Endpoints                  
+- ✅ Exposing REST Endpoints
 - ❌ Pagination
 - ❌ Audit for tables
-- ✅ Database Integration                     
-- ✅ Declaring beans in configuration classes 
-- ✅ Exposing Metrics Endpoints               
-- ✅ Exposing Health Endpoints                
-- ✅ Use of REST Clients                      
-- ✅ Generating and Exposing Swagger          
-- ✅ Using Hexagonal Architecture             
-- ✅ Use of Yaml Configuration Files          
+- ❌ Events and outbox pattern
+- ✅ Database Integration
+- ✅ Connection poll for database
+- ✅ Declaring beans in configuration classes
+- ✅ Exposing Metrics Endpoints
+- ✅ Exposing Health Endpoints
+- ✅ Use of REST Clients with a connection poll
+- ✅ Generating and Exposing Swagger
+- ✅ Using Hexagonal Architecture
+- ✅ Use of Yaml Configuration Files
 - ✅ Loading configurations from yaml to class
 - ✅ Use of MapStruct
-- ❌ Use of logging and log levels
-     
+- ✅ Use of logging and log levels
+- ❌ Define metrics for the endpoints
+- ❌ Semantic versioning
+- ✅ Error handling
+
 In terms of testing:
 
-- ✅ Integration Tests (JVM and Native mode)                        
-- ✅ Using Mocks                              
-- ✅ Use of Architecture Unit Test            
-- ✅ Use of Wiremock for stubs                
+- ✅ Integration Tests (JVM and Native mode)
+- ✅ Using Mocks
+- ✅ Use of Architecture Unit Test
+- ✅ Use of Wiremock for stubs
 - ❌ Use of GatLing for Stress Tests
 - ✅ Use of BDD and JGiven as Native Integration Test
 

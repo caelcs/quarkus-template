@@ -1,5 +1,11 @@
 quarkus:
 
+  log:
+    level: INFO
+    category:
+      "org.hibernate":
+        level: DEBUG
+
   datasource:
     db-kind: h2
     username: username-default
