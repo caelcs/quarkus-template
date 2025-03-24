@@ -1,6 +1,10 @@
 quarkus:
 
+
   log:
+    console:
+      json:
+        enabled: false
     level: INFO
     category:
       "org.hibernate":

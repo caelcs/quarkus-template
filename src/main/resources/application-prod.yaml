@@ -1,6 +1,9 @@
 quarkus:
 
   log:
+    console:
+      json:
+        enabled: true
     level: ERROR
     category:
       "org.hibernate":

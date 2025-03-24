@@ -23,6 +23,7 @@ libraries.
 - ✅ Loading configurations from yaml to class
 - ✅ Use of MapStruct
 - ✅ Use of logging and log levels
+- ✅ Logging Json for PROD
 - ❌ Define metrics for the endpoints
 - ❌ Semantic versioning
 - ✅ Error handling
