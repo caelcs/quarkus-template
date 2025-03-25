@@ -1,8 +1,10 @@
 plugins {
-    id 'java'
-    id 'io.quarkus'
+    id("java")
+    id("io.quarkus")
     id("com.github.spotbugs") version "6.1.7"
-    id "com.tngtech.jgiven.gradle-plugin" version "2.0.2"
+    id("com.tngtech.jgiven.gradle-plugin") version "2.0.2"
+    id("com.github.ben-manes.versions") version "0.52.0"
+    id("pl.allegro.tech.build.axion-release") version '1.18.9'
 }
 
 repositories {
@@ -71,6 +73,26 @@ test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
     testLogging {
         events "passed", "skipped", "failed"
+    }
+}
+
+scmVersion {
+    repository {
+        type = 'git'
+    }
+    tag {
+        prefix = ''
+    }
+
+    versionIncrementer { version, position ->
+        def branch = System.getenv('BRANCH_NAME') ?: 'main'
+        if (branch ==~ /release\/.*/) {
+            return version.incrementMajor()
+        } else if (branch ==~ /feature\/.*/) {
+            return version.incrementMinor()
+        } else {
+            return version.incrementPatch()
+        }
     }
 }
 
