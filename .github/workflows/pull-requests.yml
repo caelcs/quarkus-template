@@ -1,10 +1,9 @@
 name: build
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches:
+      - 'feature/*'
 
 jobs:
   build-jvm:
@@ -25,7 +24,7 @@ jobs:
           java-version: 21
 
       - name: Cache Gradle packages
-        uses: actions/cache@v3
+        uses: actions/cache@v3./gradlew
         with:
           path: ~/.gradle
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/gradle.build') }}
@@ -35,4 +34,4 @@ jobs:
         run: ./gradlew dependencyUpdates
 
       - name:  Runs all checks
-        run: ./gradlew check
+        run: ./gradlew clean check
