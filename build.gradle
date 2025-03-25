@@ -42,6 +42,9 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
     testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 
+    nativeTestCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+    nativeTestAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
     implementation("org.mapstruct:mapstruct:${mapStructVersion}")
     annotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
     testImplementation("org.mapstruct:mapstruct:${mapStructVersion}")
@@ -52,6 +55,7 @@ dependencies {
 
     compileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
     testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
+    nativeTestCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
 
     // JGiven for JUnit 5
     nativeTestImplementation("com.tngtech.jgiven:jgiven-junit5:${jGivenVersion}")
