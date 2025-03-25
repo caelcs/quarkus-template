@@ -70,7 +70,7 @@ class AccountResourceIntegrationTest {
                 .when()
                 .get("/accounts")
                 .then()
-                .statusCode(Response.Status.OK.getStatusCode()) // Expect HTTP 201 Created
+                .statusCode(Response.Status.OK.getStatusCode())
                 .extract()
                 .response().as(AccountWebModel.class);
 

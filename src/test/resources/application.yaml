@@ -1,9 +1,11 @@
 quarkus:
-  rest-client:
-    transactions-api:
-      url: http://localhost:${quarkus.wiremock.devservices.port:9999}
 
   log:
     category:
       "io.quarkiverse.wiremock":
         level: DEBUG
+
+app:
+  rest-client:
+    transactions-api:
+      url: http://localhost:${quarkus.wiremock.devservices.port:9999}
