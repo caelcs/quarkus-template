@@ -37,4 +37,4 @@ jobs:
         run: ./gradlew clean testNative -Dquarkus.profile=native-test -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
 
       - name: Build Native Image
-        run: ./gradlew clean build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
+        run: ./gradlew clean quarkusBuild -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
