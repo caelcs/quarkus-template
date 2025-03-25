@@ -23,13 +23,6 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v3./gradlew
-        with:
-          path: ~/.gradle
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/gradle.build') }}
-          restore-keys: ${{ runner.os }}-gradle
-
       - name: Dependencies check
         run: ./gradlew dependencyUpdates
 
