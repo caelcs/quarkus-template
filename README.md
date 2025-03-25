@@ -17,6 +17,7 @@ libraries.
 - ✅ Exposing Metrics Endpoints
 - ✅ Exposing Health Endpoints
 - ✅ Use of REST Clients with a connection poll
+- ❌ Resiliance4J for REST Clients
 - ✅ Generating and Exposing Swagger
 - ✅ Using Hexagonal Architecture
 - ✅ Use of Yaml Configuration Files

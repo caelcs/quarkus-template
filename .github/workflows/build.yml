@@ -34,5 +34,5 @@ jobs:
       - name: Dependencies check
         run: ./gradlew dependencyUpdates
 
-      - name: Compile, test, and verify
-        run: ./gradlew test
+      - name:  Runs all checks
+        run: ./gradlew check
