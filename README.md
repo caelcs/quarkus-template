@@ -26,7 +26,6 @@ libraries.
 - ✅ Logging Json for PROD
 - ✅ MDC to generate correlation id and passing it to the REST client
 - ❌ Define metrics for the endpoints
-- ✅ Semantic versioning
 - ✅ Error handling
 - ✅ Dependencies update detection
 
