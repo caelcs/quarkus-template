@@ -1,4 +1,4 @@
-package com.caelcs.adapter.in.rest.account;
+package com.caelcs.adapter.in.rest.common;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.core.Response;

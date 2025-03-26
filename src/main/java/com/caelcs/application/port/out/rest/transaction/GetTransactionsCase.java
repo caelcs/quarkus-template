@@ -1,4 +1,4 @@
-package com.caelcs.application.port.in.transaction;
+package com.caelcs.application.port.out.rest.transaction;
 
 import com.caelcs.model.account.AccountType;
 import com.caelcs.model.transaction.Transaction;

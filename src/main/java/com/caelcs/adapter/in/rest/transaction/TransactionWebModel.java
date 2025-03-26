@@ -1,4 +1,4 @@
-package com.caelcs.adapter.in.rest.account;
+package com.caelcs.adapter.in.rest.transaction;
 
 import com.caelcs.model.transaction.Amount;
 import com.caelcs.model.transaction.OperationType;
