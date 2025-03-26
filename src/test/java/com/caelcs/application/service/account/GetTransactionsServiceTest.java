@@ -3,6 +3,7 @@ package com.caelcs.application.service.account;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponseMother;
+import com.caelcs.application.service.transaction.GetTransactionsService;
 import com.caelcs.model.account.AccountType;
 import com.caelcs.model.transaction.Transaction;
 import org.jboss.resteasy.reactive.RestResponse;

@@ -1,6 +1,6 @@
-package com.caelcs.application.service.account;
+package com.caelcs.application.service.transaction;
 
-import com.caelcs.application.port.in.transaction.GetTransactionsCase;
+import com.caelcs.application.port.out.rest.transaction.GetTransactionsCase;
 import com.caelcs.application.port.out.rest.transaction.TransactionResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponse;

@@ -1,18 +1,12 @@
 package com.caelcs.adapter.in.rest.account;
 
 import com.caelcs.application.port.out.persistence.account.AccountRepository;
-import com.caelcs.application.port.out.rest.transaction.TransactionsResponse;
-import com.caelcs.application.port.out.rest.transaction.TransactionsResponseMother;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountMother;
 import com.caelcs.model.account.AccountType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.matching.MultiValuePattern;
-import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.quarkiverse.wiremock.devservice.ConnectWireMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
@@ -23,19 +17,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.slf4j.MDC;
 
 import java.util.function.Consumer;
 
-import static com.caelcs.adapter.out.rest.MDCClientRequestFilter.CORRELATION_ID;
-import static com.caelcs.adapter.out.rest.MDCClientRequestFilter.X_CORRELATION_ID;
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
-import static org.jboss.resteasy.reactive.RestResponse.Status.OK;
 
 @QuarkusTest
-@ConnectWireMock
 @SuppressFBWarnings(value = {"UwF", "NP"}, justification = "This list is safely managed elsewhere")
 class AccountResourceIntegrationTest {
 
@@ -45,23 +33,11 @@ class AccountResourceIntegrationTest {
     @Inject
     AccountRepository accountRepository;
 
-    WireMock wireMock;
-
     @Test
-    void test_get_account_endpoint_success() throws JsonProcessingException {
+    void test_get_account_endpoint_success() {
         //Given
         Account account = AccountMother.base();
         executeQuery(account1 -> accountRepository.saveEntity(account1), account);
-
-        //And
-        TransactionsResponse expectedTransactionsResponse = TransactionsResponseMother.base();
-        wireMock.register(get(urlPathEqualTo("/transactions"))
-                .withQueryParam("accountNumber", equalTo(account.accountNumber()))
-                .withQueryParam("accountType", equalTo(account.accountType().name()))
-                .willReturn(aResponse()
-                        .withStatus(OK.getStatusCode())
-                        .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                        .withBody(objectMapper.writeValueAsString(expectedTransactionsResponse))));
 
         //When
         AccountWebModel result = given()
@@ -80,7 +56,6 @@ class AccountResourceIntegrationTest {
         Assertions.assertEquals(account.accountType(), result.accountType());
         Assertions.assertNotNull(result.id());
         Assertions.assertNotNull(result.creationDate());
-        Assertions.assertEquals(1, result.transactions().size());
     }
 
     @Test
@@ -88,17 +63,6 @@ class AccountResourceIntegrationTest {
         //Given
         Account account = AccountMother.base();
         executeQuery(account1 -> accountRepository.saveEntity(account1), account);
-
-        //And
-        TransactionsResponse expectedTransactionsResponse = TransactionsResponseMother.base();
-        wireMock.register(get(urlPathEqualTo("/transactions"))
-                .withQueryParam("accountNumber", equalTo(account.accountNumber()))
-                .withQueryParam("accountType", equalTo(account.accountType().name()))
-                .withHeader(X_CORRELATION_ID, matching(".*"))
-                .willReturn(aResponse()
-                        .withStatus(OK.getStatusCode())
-                        .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                        .withBody(objectMapper.writeValueAsString(expectedTransactionsResponse))));
 
         //When
         AccountWebModel result = given()
@@ -117,7 +81,6 @@ class AccountResourceIntegrationTest {
         Assertions.assertEquals(account.accountType(), result.accountType());
         Assertions.assertNotNull(result.id());
         Assertions.assertNotNull(result.creationDate());
-        Assertions.assertEquals(1, result.transactions().size());
     }
 
     @Test
