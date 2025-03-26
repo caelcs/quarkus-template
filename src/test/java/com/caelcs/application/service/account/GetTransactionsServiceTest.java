@@ -54,6 +54,24 @@ class GetTransactionsServiceTest {
         String accountNumber = "333444";
 
         //And
+        when(client.getTransactionsByAccountNumberAndType(eq(accountNumber), eq(accountType)))
+                .thenReturn(RestResponse.notFound());
+
+        //When
+        List<Transaction> results = service.getTransactionsByAccount(accountNumber, accountType);
+
+        //Then
+        Assertions.assertNotNull(results);
+        Assertions.assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void test_getTransactionsByAccount_Given404ResponseFromService_ThenEmptyListSuccess() {
+        //Given
+        AccountType accountType = AccountType.DEBIT;
+        String accountNumber = "333444";
+
+        //And
         TransactionsResponse expectedTransactionResponse = TransactionsResponseMother.baseNoTransactions();
         when(client.getTransactionsByAccountNumberAndType(eq(accountNumber), eq(accountType)))
                 .thenReturn(RestResponse.ok(expectedTransactionResponse));

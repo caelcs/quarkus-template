@@ -1,6 +1,7 @@
 package com.caelcs.adapter.out.rest.transaction;
 
 import com.caelcs.adapter.out.rest.MDCClientRequestFilter;
+import com.caelcs.adapter.out.rest.exception.mappers.ProcessingExceptionMapper;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
 import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder;
 import jakarta.enterprise.context.Dependent;
@@ -28,6 +29,7 @@ public class RestClientConfiguration {
                 .property("resteasy.idleTimeout", config.idleTimeout())
                 .disableDefaultMapper(true)
                 .register(MDCClientRequestFilter.class)
+                .register(ProcessingExceptionMapper.class)
                 .build(TransactionsClient.class);
     }
 
