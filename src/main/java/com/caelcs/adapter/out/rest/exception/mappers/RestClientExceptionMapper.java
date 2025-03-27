@@ -11,7 +11,7 @@ public class RestClientExceptionMapper implements ExceptionMapper<RestClientExce
     @Override
     public Response toResponse(RestClientException e) {
         return Response
-                .status(e.getStatusCode())
+                .status(e.getStatus())
                 .entity(e.getMessage())
                 .build();
     }
