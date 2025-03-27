@@ -1,5 +1,6 @@
 package com.caelcs.application.service.transaction;
 
+import com.caelcs.adapter.in.rest.common.RestClientException;
 import com.caelcs.application.port.out.rest.transaction.GetTransactionsCase;
 import com.caelcs.application.port.out.rest.transaction.TransactionResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
@@ -22,13 +23,15 @@ public class GetTransactionsService implements GetTransactionsCase {
     @Override
     public List<Transaction> getTransactionsByAccount(String accountNumber, AccountType accountType) {
         RestResponse<TransactionsResponse> response = transactionsClient.getTransactionsByAccountNumberAndType(accountNumber, accountType);
+
         return switch (response.getStatus()) {
             case 200 ->
                 response.getEntity().transactions().stream()
                         .map(TransactionResponse::toTransaction)
                         .toList();
+            case 404 -> List.of();
             default ->
-                List.of();
+                throw new RestClientException(response.getStatusInfo());
         };
     }
 
