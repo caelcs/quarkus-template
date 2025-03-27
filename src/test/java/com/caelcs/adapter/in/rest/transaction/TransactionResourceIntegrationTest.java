@@ -7,6 +7,7 @@ import com.caelcs.model.account.AccountType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.quarkiverse.wiremock.devservice.ConnectWireMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 @ConnectWireMock
+@SuppressFBWarnings(value = {"UwF", "NP"}, justification = "This list is safely managed elsewhere")
 class TransactionResourceIntegrationTest {
 
     WireMock wireMock;

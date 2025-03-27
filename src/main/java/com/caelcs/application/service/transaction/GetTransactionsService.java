@@ -1,6 +1,6 @@
 package com.caelcs.application.service.transaction;
 
-import com.caelcs.adapter.in.rest.common.RestClientException;
+import com.caelcs.application.port.out.rest.common.RestClientException;
 import com.caelcs.application.port.out.rest.transaction.GetTransactionsCase;
 import com.caelcs.application.port.out.rest.transaction.TransactionResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;

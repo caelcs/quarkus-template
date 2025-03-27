@@ -1,6 +1,6 @@
 package com.caelcs.adapter.out.rest.transaction;
 
-import com.caelcs.adapter.in.rest.common.RestClientExceptionMapper;
+import com.caelcs.adapter.out.rest.exception.mappers.RestClientExceptionMapper;
 import com.caelcs.adapter.out.rest.MDCClientRequestFilter;
 import com.caelcs.adapter.out.rest.exception.mappers.ProcessingExceptionMapper;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;

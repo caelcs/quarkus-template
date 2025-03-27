@@ -1,4 +1,4 @@
-package com.caelcs.adapter.in.rest.common;
+package com.caelcs.application.port.out.rest.common;
 
 import jakarta.ws.rs.core.Response;
 import lombok.Getter;
