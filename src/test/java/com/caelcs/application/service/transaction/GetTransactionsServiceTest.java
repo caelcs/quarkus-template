@@ -1,9 +1,8 @@
-package com.caelcs.application.service.account;
+package com.caelcs.application.service.transaction;
 
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponseMother;
-import com.caelcs.application.service.transaction.GetTransactionsService;
 import com.caelcs.model.account.AccountType;
 import com.caelcs.model.transaction.Transaction;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -29,7 +28,7 @@ class GetTransactionsServiceTest {
     private GetTransactionsService service;
 
     @Test
-    void test_getTransactionsByAccount_GivenValidAccountWithTransactions_ThenSuccess() {
+    void test_getTransactionsByAccount_GivenValidTransactionsForAnAccount_ThenSuccess() {
         //Given
         AccountType accountType = AccountType.DEBIT;
         String accountNumber = "333444";
@@ -49,7 +48,7 @@ class GetTransactionsServiceTest {
     }
 
     @Test
-    void test_getTransactionsByAccount_GivenValidAccountWithNoTransactions_ThenSuccess() {
+    void test_getTransactionsByAccount_Given404AndNoTransactionsForAnAccount_ThenEmptyList() {
         //Given
         AccountType accountType = AccountType.DEBIT;
         String accountNumber = "333444";
@@ -67,23 +66,21 @@ class GetTransactionsServiceTest {
     }
 
     @Test
-    void test_getTransactionsByAccount_Given404ResponseFromService_ThenEmptyListSuccess() {
+    void test_getTransactionsByAccount_Given500ForAnAccount_thenThrowExceptionStatusCode500() {
         //Given
         AccountType accountType = AccountType.DEBIT;
         String accountNumber = "333444";
 
         //And
-        TransactionsResponse expectedTransactionResponse = TransactionsResponseMother.baseNoTransactions();
         when(client.getTransactionsByAccountNumberAndType(eq(accountNumber), eq(accountType)))
-                .thenReturn(RestResponse.ok(expectedTransactionResponse));
+                .thenReturn(RestResponse.serverError());
 
         //When
-        List<Transaction> results = service.getTransactionsByAccount(accountNumber, accountType);
-
-        //Then
-        Assertions.assertNotNull(results);
-        Assertions.assertTrue(results.isEmpty());
+        Assertions.assertThrows(RuntimeException.class,
+                () -> service.getTransactionsByAccount(accountNumber, accountType));
     }
+
+
 
     private static void assertTransaction(TransactionsResponse expectedTransactionResponse, List<Transaction> results) {
         Assertions.assertEquals(expectedTransactionResponse.transactions().getFirst().description(), results.getFirst().description());
