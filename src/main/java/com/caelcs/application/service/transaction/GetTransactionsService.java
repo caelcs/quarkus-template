@@ -13,6 +13,9 @@ import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
 
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+import static jakarta.ws.rs.core.Response.Status.OK;
+
 @ApplicationScoped
 @AllArgsConstructor
 public class GetTransactionsService implements GetTransactionsCase {
@@ -24,12 +27,12 @@ public class GetTransactionsService implements GetTransactionsCase {
     public List<Transaction> getTransactionsByAccount(String accountNumber, AccountType accountType) {
         RestResponse<TransactionsResponse> response = transactionsClient.getTransactionsByAccountNumberAndType(accountNumber, accountType);
 
-        return switch (response.getStatus()) {
-            case 200 ->
+        return switch (response.getStatusInfo()) {
+            case OK ->
                 response.getEntity().transactions().stream()
                         .map(TransactionResponse::toTransaction)
                         .toList();
-            case 404 -> List.of();
+            case NOT_FOUND -> List.of();
             default ->
                 throw new RestClientException(response.getStatusInfo());
         };

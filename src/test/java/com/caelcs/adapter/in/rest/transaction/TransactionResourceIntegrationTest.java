@@ -45,7 +45,7 @@ class TransactionResourceIntegrationTest {
                 .withQueryParam("accountNumber", equalTo(accountNumber))
                 .withQueryParam("accountType", equalTo(accountType.name()))
                 .willReturn(aResponse()
-                        .withStatus(200)
+                        .withStatus(Response.Status.OK.getStatusCode())
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .withBody(objectMapper.writeValueAsString(expectedTransactionsResponse))));
 
@@ -77,7 +77,7 @@ class TransactionResourceIntegrationTest {
                 .withQueryParam("accountNumber", equalTo(accountNumber))
                 .withQueryParam("accountType", equalTo(accountType.name()))
                 .willReturn(aResponse()
-                        .withStatus(404)));
+                        .withStatus(Response.Status.NOT_FOUND.getStatusCode())));
 
         //When
         TransactionsWebModel result = given()
@@ -107,7 +107,7 @@ class TransactionResourceIntegrationTest {
                 .withQueryParam("accountNumber", equalTo(accountNumber))
                 .withQueryParam("accountType", equalTo(accountType.name()))
                 .willReturn(aResponse()
-                        .withStatus(500)));
+                        .withStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())));
 
         //When
         given()
