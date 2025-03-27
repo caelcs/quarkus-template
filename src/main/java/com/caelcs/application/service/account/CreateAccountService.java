@@ -4,9 +4,9 @@ import com.caelcs.application.dto.AccountDTO;
 import com.caelcs.application.port.in.account.CreateAccountUseCase;
 import com.caelcs.application.port.out.persistence.account.AccountEntity;
 import com.caelcs.application.port.out.persistence.account.AccountRepository;
+import com.caelcs.application.port.out.persistence.account.AccountNotFoundException;
 import com.caelcs.model.account.Account;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -28,6 +28,6 @@ public class CreateAccountService implements CreateAccountUseCase {
         accountRepository.saveEntity(account);
         return accountRepository.findEntityByAccountNumberAndType(accountDTO.accountNumber(), accountDTO.accountType())
                 .map(AccountEntity::toAccount)
-                .orElseThrow(() -> new EntityNotFoundException("Account Entity Not found"));
+                .orElseThrow(() -> new AccountNotFoundException(account.accountNumber(), account.accountType()));
     }
 }

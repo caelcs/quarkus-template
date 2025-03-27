@@ -3,6 +3,7 @@ package com.caelcs.application.service.account;
 import com.caelcs.application.dto.AccountDTO;
 import com.caelcs.application.port.out.persistence.account.AccountEntity;
 import com.caelcs.application.port.out.persistence.account.AccountEntityMother;
+import com.caelcs.application.port.out.persistence.account.AccountNotFoundException;
 import com.caelcs.application.port.out.persistence.account.AccountRepository;
 import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
 import com.caelcs.model.account.Account;
@@ -83,7 +84,7 @@ class CreateAccountServiceTest {
                 .thenReturn(Optional.empty());
 
         //When
-        Assertions.assertThrows(EntityNotFoundException.class, () -> service.create(accountDTO));
+        Assertions.assertThrows(AccountNotFoundException.class, () -> service.create(accountDTO));
 
         //Then
         verify(accountRepository).saveEntity(accountCaptor.capture());

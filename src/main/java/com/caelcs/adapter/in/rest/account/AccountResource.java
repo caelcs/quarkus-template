@@ -2,6 +2,7 @@ package com.caelcs.adapter.in.rest.account;
 
 import com.caelcs.application.port.in.account.CreateAccountUseCase;
 import com.caelcs.application.port.in.account.GetAccountUseCase;
+import com.caelcs.application.port.out.persistence.account.AccountNotFoundException;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountType;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,6 +42,6 @@ public class AccountResource {
         MDC.put(CORRELATION_ID, UUID.randomUUID().toString());
         return getAccountUseCase.getAccountByAccountNumberAndType(accountNumber, accountType)
                 .map(AccountWebModel::fromAccount)
-                .orElseThrow(() -> new EntityNotFoundException("Entity Not Found"));
+                .orElseThrow(() -> new AccountNotFoundException(accountNumber, accountType));
     }
 }
