@@ -46,16 +46,12 @@ jobs:
       - name: Allow Testcontainers to Run
         run: echo 'testcontainers.reuse.enable=true' > ~/.testcontainers.properties
 
-      - name: Install GraalVM Native Image
-        run: |
-          curl -sL https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.1/graalvm-community-jdk-21.0.1_linux-x64_bin.tar.gz -o graalvm.tar.gz
-          tar -xzf graalvm.tar.gz
-          sudo mv graalvm-community-jdk-21.0.1 /opt/graalvm
-          echo "export PATH=/opt/graalvm/bin:$PATH" >> $HOME/.bashrc
-          echo "export JAVA_HOME=/opt/graalvm" >> $HOME/.bashrc
-          source $HOME/.bashrc
-          gu install native-image
-          java -version
+      - name: Set Up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm-community'
+          cache: 'maven'
 
       - name: Running checks and native tests
         run: ./gradlew clean testNative -Dquarkus.profile=native-test
