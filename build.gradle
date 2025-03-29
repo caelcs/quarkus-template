@@ -57,14 +57,16 @@ dependencies {
     testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
     nativeTestCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
 
-    // JGiven for JUnit 5
-    nativeTestImplementation("com.tngtech.jgiven:jgiven-junit5:${jGivenVersion}")
-    nativeTestImplementation("com.tngtech.jgiven:jgiven-html5-report:${jGivenVersion}")
+    nativeTestImplementation('org.testcontainers:testcontainers')
+    nativeTestImplementation('org.testcontainers:junit-jupiter')
+    nativeTestImplementation('org.testcontainers:postgresql')
+    nativeTestImplementation('org.testcontainers:mockserver')
+    nativeTestImplementation("org.mock-server:mockserver-client-java:5.15.0")
 
 
     // Quarkus Testing
-    nativeTestImplementation 'io.quarkus:quarkus-junit5'
-    nativeTestImplementation 'io.rest-assured:rest-assured'
+    nativeTestImplementation('io.quarkus:quarkus-junit5')
+    nativeTestImplementation('io.rest-assured:rest-assured')
 }
 
 java {

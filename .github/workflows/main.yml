@@ -11,6 +11,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,6 +37,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
+      - name: Enable Docker for Testcontainers
+          run: |
+            sudo sysctl -w net.ipv4.conf.all.route_localnet=1
+            sudo systemctl restart docker
+
+        - name: Allow Testcontainers to Run
+          run: echo 'testcontainers.reuse.enable=true' > ~/.testcontainers.properties
+
+        - name: Install GraalVM Native Image
+          run: |
+            curl -sL https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.1/graalvm-community-jdk-21.0.1_linux-x64_bin.tar.gz -o graalvm.tar.gz
+            tar -xzf graalvm.tar.gz
+            sudo mv graalvm-community-jdk-21.0.1 /opt/graalvm
+            echo "export PATH=/opt/graalvm/bin:$PATH" >> $HOME/.bashrc
+            echo "export JAVA_HOME=/opt/graalvm" >> $HOME/.bashrc
+            source $HOME/.bashrc
+            gu install native-image
+            java -version
 
       - name: Running checks and native tests
         run: ./gradlew clean testNative -Dquarkus.profile=native-test
