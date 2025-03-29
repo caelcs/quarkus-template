@@ -32,7 +32,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'graalvm-community'
-          cache: 'maven'
+          cache: 'gradle'
 
       - name: Checkout code
         uses: actions/checkout@v3
