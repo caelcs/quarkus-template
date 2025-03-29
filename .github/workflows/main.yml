@@ -27,16 +27,18 @@ jobs:
           --health-retries 5
 
     steps:
+      - name: Set Up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm-community'
+          cache: 'maven'
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Fetch all history for all branches and tags (otherwise Sonar will report: "Shallow clone detected, no blame information will be provided.")
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 21
 
       - name: Enable Docker for Testcontainers
         run: |
@@ -45,13 +47,6 @@ jobs:
 
       - name: Allow Testcontainers to Run
         run: echo 'testcontainers.reuse.enable=true' > ~/.testcontainers.properties
-
-      - name: Set Up GraalVM
-        uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: '21'
-          distribution: 'graalvm-community'
-          cache: 'maven'
 
       - name: Running checks and native tests
         run: ./gradlew clean testNative -Dquarkus.profile=native-test
