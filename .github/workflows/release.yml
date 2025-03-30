@@ -71,6 +71,8 @@ jobs:
           asset_path: build/app-${{ env.GIT_TAG }}-runner
           asset_name: quarkus-template-linux-x86_64
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Image with Git Tag
         run: |
