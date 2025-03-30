@@ -33,10 +33,17 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Native Executable
-        run:  ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true
+        run:  ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true build/app-binary
 
       - name: Extract Git Tag
         run: echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Upload Binary to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app-binary
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Image with Git Tag
         run: |
