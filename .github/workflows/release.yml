@@ -49,7 +49,7 @@ jobs:
       - name: Upload Binary to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/app-${{ env.env.GIT_TAG }}-runner
+          files: build/app-${{ env.GIT_TAG }}-runner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
