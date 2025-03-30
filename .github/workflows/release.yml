@@ -35,8 +35,20 @@ jobs:
       - name: Build Native Executable
         run:  ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true
 
-      - name: Build Docker Image
-        run:  docker build -f src/main/docker/Dockerfile.native-micro -t ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template .
+      - name: Extract Git Tag
+        run: echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build Docker Image with Git Tag
+        run: |
+          docker build -f src/main/docker/Dockerfile.native-micro -t ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }} .
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }} ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:latest
 
       - name: Push Docker Image to Docker Hub
-        run:  docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ github.sha }}
+        run: |
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:latest
+
+      - name: Push Docker Image to Docker Hub
+        run: | 
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:latest
