@@ -29,6 +29,10 @@ libraries.
 - ❌ Define metrics for the endpoints
 - ✅ Error handling
 - ✅ Dependencies update detection
+- ✅ Use github actions for CI at pull request, main and release branches
+- ✅ Attached native binary to the release on github
+- ✅ Published docker images to docker hub
+- ✅ Attached docker image reference to the release on github
 
 In terms of testing:
 
