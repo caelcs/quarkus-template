@@ -45,11 +45,21 @@ jobs:
           ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true -PbuildVersion=${{ env.GIT_TAG }}
           mv build/*-runner build/app-${{ env.GIT_TAG }}-runner
 
+      - name: Create Release Notes with Docker Image Link
+        run: |
+          echo "## Release ${{ env.GIT_TAG }}" > release-notes.md
+          echo "" >> release-notes.md
+          echo "### 🐳 Docker Image" >> release-notes.md
+          echo "[Docker Hub: ${{ secrets.DOCKER_HUB_USERNAME }}/your-repo:${{ env.GIT_TAG }}](https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template)" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "### 📦 Download Binary" >> release-notes.md
+          echo "Download the native binary below 👇" >> release-notes.md
 
       - name: Upload Binary to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: build/app-${{ env.GIT_TAG }}-runner
+          body_path: release-notes.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -60,10 +70,5 @@ jobs:
 
       - name: Push Docker Image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:latest
-
-      - name: Push Docker Image to Docker Hub
-        run: | 
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:latest
