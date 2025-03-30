@@ -59,7 +59,7 @@ class AccountResourceIntegrationTest {
     }
 
     @Test
-    void test_get_account_GivenCorrelationIdIsGenerated_thenSuccess() throws JsonProcessingException {
+    void test_get_account_GivenCorrelationIdIsGenerated_thenSuccess() {
         //Given
         Account account = AccountMother.base();
         executeQuery(account1 -> accountRepository.saveEntity(account1), account);

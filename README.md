@@ -31,8 +31,7 @@ libraries.
 - ✅ Dependencies update detection
 - ✅ Use github actions for CI at pull request, main and release branches
 - ✅ Attached native binary to the release on github
-- ✅ Published docker images to docker hub
-- ✅ Attached docker image reference to the release on github
+- ✅ Published docker images to GHCR
 
 In terms of testing:
 
@@ -41,7 +40,7 @@ In terms of testing:
 - ✅ Use of Architecture Unit Test
 - ✅ Use of Wiremock for stubs
 - ❌ Use of GatLing for Stress Tests
-- ✅ Use of BDD and JGiven as Native Integration Test
+- ❌ Use of BDD
 
 ## Running the application in dev mode
 
@@ -136,8 +135,9 @@ Pull Request: This pipeline is triggered when you create a pull request that is 
 Main: This pipeline is triggered when you push to the main branch or merge the pull request.
 
 release: This pipeline is triggered when you create a release on the main branch. 
-It will build the docker image and push it to docker hub. 
-It will also attach the docker image reference to the release on github.
+It will build the docker image and push it to GHCR.
+
+Every docker imaged is available as a package in the github repository.
 
 for this you have to create github tab that starts with v*
 
@@ -147,3 +147,4 @@ for this you have to create github tab that starts with v*
 ```
 
 this will kick the release build.
+
