@@ -63,6 +63,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload Native Binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app-${{ env.GIT_TAG }}-runner
+          asset_name: quarkus-template-linux-x86_64
+          asset_content_type: application/octet-stream
+
       - name: Build Docker Image with Git Tag
         run: |
           docker build -f src/main/docker/Dockerfile.native-micro -t ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }} .
