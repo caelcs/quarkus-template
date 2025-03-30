@@ -49,7 +49,11 @@ jobs:
 
       - name: Running checks and native tests
         run: ./gradlew clean testNative -Dquarkus.profile=native-test
+
   build-docker-image:
+    name: Build native docker image
+
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
