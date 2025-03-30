@@ -56,6 +56,7 @@ jobs:
           echo "Download the native binary below 👇" >> release-notes.md
 
       - name: Upload Binary to GitHub Release
+        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           files: build/app-${{ env.GIT_TAG }}-runner
