@@ -16,7 +16,10 @@ public class TestContainerLifecycleManager implements QuarkusTestResourceLifecyc
     public Map<String, String> start() {
         postgreSQLContainer.start();
         waitForDatabase();
-        return Map.of("quarkus.datasource.native-test.jdbc.url", postgreSQLContainer.getJdbcUrl());
+        return Map.of("quarkus.datasource.jdbc.url", postgreSQLContainer.getJdbcUrl(),
+                "quarkus.datasource.username", postgreSQLContainer.getUsername(),
+                "quarkus.datasource.password", postgreSQLContainer.getPassword(),
+                "quarkus.datasource.db-kind", "postgresql");
     }
 
     @Override

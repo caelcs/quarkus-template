@@ -110,12 +110,27 @@ Easily start your REST Web Services
 
 ## Running Native Tests
 
-By default at the time of creating this template Quarkus is using PROD profile for building the native image and running the native tests.
-
-In order to run these testing against the native image using test config, I have created a profile called native-test with an specific application yaml file which
-override the database for a h2.
-
 ```shell
-./gradlew clean testNative -Dquarkus.profile=native-test
+./gradlew clean testNative
 ```
 
+## Running docker image prod for tests
+
+Now that you have the docker image, you can run the image using docker compose to test it locally by running the following command:
+
+### Start services
+```shell
+cd src/main/docker
+docker-compose up -d
+```
+
+In case you want to upgrade the database most likely that you will have to delete all the volumes
+
+```shell
+ docker-compose down --volumes --remove-orphans
+```
+
+### Stop services
+```shell
+docker-compose down
+```
