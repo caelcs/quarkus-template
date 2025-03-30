@@ -73,3 +73,9 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:latest
+
+      - name: Update Release Notes with Docker Image Link
+        run: |
+          gh release edit ${{ github.ref_name }} --notes "[Docker Hub: ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}](https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

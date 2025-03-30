@@ -100,18 +100,6 @@ it is quite easy, after you build the native executable you can build the docker
  docker build -f src/main/docker/Dockerfile.native-micro -t com.caelcs/quarkus-template .
 ```
 
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
-
 ## Running Native Tests
 
 ```shell
@@ -138,3 +126,24 @@ In case you want to upgrade the database most likely that you will have to delet
 ```shell
 docker-compose down
 ```
+
+### Github Actions
+
+There three CI pipelines available:
+
+Pull Request: This pipeline is triggered when you create a pull request that is derived from main branch and the name start with feature/
+
+Main: This pipeline is triggered when you push to the main branch or merge the pull request.
+
+release: This pipeline is triggered when you create a release on the main branch. 
+It will build the docker image and push it to docker hub. 
+It will also attach the docker image reference to the release on github.
+
+for this you have to create github tab that starts with v*
+
+```shell
+ git tag -a v1.0.15 -m "Release version 1.0.15"
+ git push origin v1.0.15
+```
+
+this will kick the release build.
