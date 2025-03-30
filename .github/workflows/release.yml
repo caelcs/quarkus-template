@@ -50,7 +50,7 @@ jobs:
           echo "## Release ${{ env.GIT_TAG }}" > release-notes.md
           echo "" >> release-notes.md
           echo "### 🐳 Docker Image" >> release-notes.md
-          echo "[Docker Hub: ${{ secrets.DOCKER_HUB_USERNAME }}/your-repo:${{ env.GIT_TAG }}](https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template)" >> release-notes.md
+          echo "[Docker Hub: ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}](https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template)" >> release-notes.md
           echo "" >> release-notes.md
           echo "### 📦 Download Binary" >> release-notes.md
           echo "Download the native binary below 👇" >> release-notes.md
