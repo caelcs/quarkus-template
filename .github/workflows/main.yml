@@ -48,4 +48,4 @@ jobs:
         run: echo 'testcontainers.reuse.enable=true' > ~/.testcontainers.properties
 
       - name: Running checks and native tests
-        run: ./gradlew clean testNative -Dquarkus.profile=native-test
+        run: ./gradlew clean testNative
