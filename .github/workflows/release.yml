@@ -37,18 +37,19 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build Native Executable
-        run: |  
-          ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true
-          mv build/*-runner build/app-binary
-
       - name: Extract Git Tag
         run: echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build Native Executable
+        run: |  
+          ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true -PbuildVersion=${{ env.GIT_TAG }}
+          mv build/*-runner build/app-${{ env.GIT_TAG }}-runner
+
 
       - name: Upload Binary to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/app-binary
+          files: build/app-${{ env.env.GIT_TAG }}-runner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
