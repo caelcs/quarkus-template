@@ -10,6 +10,11 @@ jobs:
     name: Build native docker image
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # ✅ This allows creating a release
+      packages: write  # ✅ This allows pushing Docker images
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
