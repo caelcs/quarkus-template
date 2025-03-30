@@ -29,6 +29,7 @@ dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation('io.quarkus:quarkus-rest')
     implementation('io.quarkus:quarkus-arc')
+    implementation("io.quarkus:quarkus-container-image-docker")
 
     implementation('io.quarkus:quarkus-jdbc-h2')
     testImplementation('io.quarkus:quarkus-junit5')
@@ -90,3 +91,5 @@ compileTestJava {
     options.encoding = 'UTF-8'
 }
 
+group = project.findProperty("group") ?: "com.example"
+version = project.findProperty("version") ?: "2.0.0"

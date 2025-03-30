@@ -1,6 +1,5 @@
 quarkus:
 
-
   log:
     console:
       json:

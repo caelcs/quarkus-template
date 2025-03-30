@@ -72,21 +72,29 @@ The application, packaged as an _über-jar_, is now runnable using `java -jar bu
 
 ## Creating a native executable
 
-You can create a native executable using:
+You can create a native executable and creating a docker image using the following command.
 
 ```shell script
-./gradlew build -Dquarkus.native.enabled=true
+./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true
 ```
 
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 
 ```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
+./gradlew build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
 ```
 
 You can then execute your native executable with: `./build/quarkus-template-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
+
+## Building docker image
+
+it is quite easy, after you build the native executable you can build the docker image using:
+
+```shell script
+ docker build -f src/main/docker/Dockerfile.native-micro -t com.caelcs/quarkus-template .
+```
 
 ## Related Guides
 

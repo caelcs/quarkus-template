@@ -6,7 +6,7 @@ on:
       - 'main'
 
 jobs:
-  build-jvm:
+  run-native-test:
     name: Run all tests including native tests
 
     runs-on: ubuntu-latest
@@ -27,7 +27,6 @@ jobs:
           --health-retries 5
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -50,3 +49,35 @@ jobs:
 
       - name: Running checks and native tests
         run: ./gradlew clean testNative -Dquarkus.profile=native-test
+  build-docker-image:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags (otherwise Sonar will report: "Shallow clone detected, no blame information will be provided.")
+
+      - name: Set Up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm-community'
+          cache: 'gradle'
+
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build Native Executable
+        run: ./gradlew buildNative
+
+      - name: Build Docker Image
+        run: ./gradlew buildDockerImage
+
+      - name: Push Docker Image
+        run: ./gradlew pushDockerImage
+
