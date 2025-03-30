@@ -33,7 +33,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Native Executable
-        run:  ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true build/app-binary
+        run: |  
+          ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true
+          mv build/*-runner build/app-binary
 
       - name: Extract Git Tag
         run: echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
