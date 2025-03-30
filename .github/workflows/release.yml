@@ -56,21 +56,11 @@ jobs:
           echo "Download the native binary below 👇" >> release-notes.md
 
       - name: Upload Binary to GitHub Release
-        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           files: build/app-${{ env.GIT_TAG }}-runner
-          body_path: release-notes.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Native Binary
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/app-${{ env.GIT_TAG }}-runner
-          asset_name: quarkus-template-linux-x86_64
-          asset_content_type: application/octet-stream
+          tag_name: ${{ env.GIT_TAG }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
