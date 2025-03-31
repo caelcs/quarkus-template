@@ -63,7 +63,7 @@ jobs:
           IMAGE_URL="https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template"
           echo "## Docker Image" >> release_notes.md
           echo "" >> release_notes.md
-          echo "[View on Docker Hub]($IMAGE_URL)" >> release_notes.md
+          echo "[${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}]($IMAGE_URL)" >> release_notes.md
           echo "" >> release_notes.md
 
       - name: Upload Binary to GitHub Release
@@ -71,7 +71,6 @@ jobs:
         with:
           files: build/app-${{ env.GIT_TAG }}-runner
           body_path: release_notes.md
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
