@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # ✅ This allows creating a release
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
