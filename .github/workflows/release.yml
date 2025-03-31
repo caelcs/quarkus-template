@@ -44,18 +44,34 @@ jobs:
           ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true -PbuildVersion=${{ env.GIT_TAG }}
           mv build/*-runner build/app-${{ env.GIT_TAG }}-runner
 
+      - name: Get Commit Messages Since Last Tag
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+          echo "## Changes since $PREV_TAG" > release_notes.md
+          echo "" >> release_notes.md
+          git log --pretty=format:"- %s" $PREV_TAG..HEAD >> release_notes.md
+          else
+          echo "## Initial Release" > release_notes.md
+          fi
+          echo "" >> release_notes.md
+
+      - name: Add Docker Hub Links
+        run: |
+          DOCKER_TAG=${GITHUB_REF#refs/tags/}
+          IMAGE_URL="https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template"
+          echo "## Docker Image" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "[View on Docker Hub]($IMAGE_URL)" >> release_notes.md
+          echo "" >> release_notes.md
+
       - name: Upload Binary to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: build/app-${{ env.GIT_TAG }}-runner
-          tag_name: ${{ env.GIT_TAG }}
+          body_path: release_notes.md
           generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update Release Notes with Docker Image Link
-        run: |
-          gh release edit ${{ github.ref_name }} --notes "[Docker Hub: ${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template:${{ env.GIT_TAG }}](https://hub.docker.com/r/${{ secrets.DOCKER_HUB_USERNAME }}/quarkus-template)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
