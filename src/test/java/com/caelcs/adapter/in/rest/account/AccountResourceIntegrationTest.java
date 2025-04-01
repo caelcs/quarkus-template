@@ -4,10 +4,10 @@ import com.caelcs.application.port.out.persistence.account.AccountRepository;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountMother;
 import com.caelcs.model.account.AccountType;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -25,6 +25,7 @@ import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 
 @QuarkusTest
 @SuppressFBWarnings(value = {"UwF", "NP"}, justification = "This list is safely managed elsewhere")
+@TestSecurity(user = "testuser", roles = {"user"})
 class AccountResourceIntegrationTest {
 
     @Inject

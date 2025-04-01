@@ -36,6 +36,7 @@ dependencies {
     testImplementation('io.quarkus:quarkus-junit5')
     testImplementation('io.rest-assured:rest-assured')
     testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
+    testImplementation("io.quarkus:quarkus-test-security")
 
     testImplementation("com.tngtech.archunit:archunit:${archunitVersion}")
 

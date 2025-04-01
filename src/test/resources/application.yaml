@@ -1,5 +1,14 @@
 quarkus:
 
+  oidc:
+    enabled: false
+
+  http:
+    auth:
+      permission:
+        all:
+          policy: permit
+
   log:
     category:
       "io.quarkiverse.wiremock":
