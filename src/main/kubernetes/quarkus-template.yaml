@@ -31,7 +31,7 @@ spec:
             - name: QUARKUS_OIDC_CLIENT_ID
               value: "quarkus-template-app"
             - name: QUARKUS_OIDC_CREDENTIALS_SECRET
-              value: "thisismypassword"
+              value: "YSFwvyazqPmLukTvwBWa0ZhlhtP3T031"
 
 ---
 
