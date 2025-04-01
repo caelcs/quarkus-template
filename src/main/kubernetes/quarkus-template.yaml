@@ -1,0 +1,46 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-app
+  template:
+    metadata:
+      labels:
+        app: quarkus-app
+    spec:
+      containers:
+        - name: quarkus-app
+          image: adolfoecs/quarkus-template:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: "jdbc:postgresql://postgres:5432/quarkusdb"
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: "quarkus"
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: "quarkus"
+            - name: QUARKUS_OIDC_AUTH_SERVER_URL
+              value: "http://keycloak:8080/realms/quarkus-template"
+            - name: QUARKUS_OIDC_CLIENT_ID
+              value: "quarkus-template-app"
+            - name: QUARKUS_OIDC_CREDENTIALS_SECRET
+              value: "thisismypassword"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-app
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: quarkus-app

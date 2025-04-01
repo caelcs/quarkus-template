@@ -29,7 +29,8 @@ dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation('io.quarkus:quarkus-rest')
     implementation('io.quarkus:quarkus-arc')
-    implementation("io.quarkus:quarkus-container-image-docker")
+    implementation('io.quarkus:quarkus-container-image-docker')
+    implementation('io.quarkus:quarkus-oidc')
 
     implementation('io.quarkus:quarkus-jdbc-h2')
     testImplementation('io.quarkus:quarkus-junit5')
@@ -62,8 +63,6 @@ dependencies {
     nativeTestImplementation('org.testcontainers:junit-jupiter')
     nativeTestImplementation('org.testcontainers:postgresql')
     nativeTestImplementation('org.testcontainers:mockserver')
-    nativeTestImplementation("org.mock-server:mockserver-client-java:5.15.0")
-
 
     // Quarkus Testing
     nativeTestImplementation('io.quarkus:quarkus-junit5')

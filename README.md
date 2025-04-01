@@ -8,16 +8,12 @@ The goal of ths template is to give the engineers a quick look how to use the mo
 libraries.
 
 - ✅ Exposing REST Endpoints
-- ❌ Pagination
-- ❌ Audit for tables
-- ❌ Events and outbox pattern
 - ✅ Database Integration
 - ✅ Connection poll for database
 - ✅ Declaring beans in configuration classes
 - ✅ Exposing Metrics Endpoints
 - ✅ Exposing Health Endpoints
 - ✅ Use of REST Clients with a connection poll
-- ❌ Resiliance4J for REST Clients
 - ✅ Generating and Exposing Swagger
 - ✅ Using Hexagonal Architecture
 - ✅ Use of Yaml Configuration Files
@@ -26,12 +22,12 @@ libraries.
 - ✅ Use of logging and log levels
 - ✅ Logging Json for PROD
 - ✅ MDC to generate correlation id and passing it to the REST client
-- ❌ Define metrics for the endpoints
 - ✅ Error handling
 - ✅ Dependencies update detection
 - ✅ Use github actions for CI at pull request, main and release branches
 - ✅ Attached native binary to the release on github
 - ✅ Published docker images to DockerHub
+- ✅ Support for OpenId Connect using Keycloak
 
 In terms of testing:
 
@@ -39,8 +35,17 @@ In terms of testing:
 - ✅ Using Mocks
 - ✅ Use of Architecture Unit Test
 - ✅ Use of Wiremock for stubs
+
+Nice to have:
+
+- ❌ Define metrics for the endpoints
+- ❌ Resiliance4J for REST Clients
+- ❌ Pagination
+- ❌ Audit for tables
+- ❌ Events and outbox pattern
 - ❌ Use of GatLing for Stress Tests
 - ❌ Use of BDD
+
 
 ## Running the application in dev mode
 
@@ -107,24 +112,67 @@ it is quite easy, after you build the native executable you can build the docker
 
 ## Running docker image prod for tests
 
-Now that you have the docker image, you can run the image using docker compose to test it locally by running the following command:
+In order to run the platform locally please install the following:
+
+- Rancher Desktop or Minikube
+
+After this you can run all the manifest to start the services
 
 ### Start services
 ```shell
-cd src/main/docker
-docker-compose up -d
+cd src/main/kuberntes
+kubectl apply -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
 ```
 
-In case you want to upgrade the database most likely that you will have to delete all the volumes
+Now once all the services are up and running you can run the following command to check the status of the services
+```shell
+kubectl port-forward svc/quarkus-app 8081:8080
+kubectl port-forward svc/keycloak 8082:8080
+kubectl port-forward svc/postgres 5432:5432
+````
+
+so now you can test keycloak by browsing to the following URL
+```shell
+http://localhost:8082/
+```
+
+The configuration that we have provided includes a client:
+
+```
+clientId: quarkus-template-app
+clientSecret: YSFwvyazqPmLukTvwBWa0ZhlhtP3T031
+```
+
+it can redirect to any url.
+
+you will have to login with the admin user in keycloak and create a user:
+
+```
+username: alice
+password: alice
+
+```
+
+Assuming you have created the user alice, you can generate an access token:
 
 ```shell
- docker-compose down --volumes --remove-orphans
+export access_token=$(\
+    curl --insecure -X POST http://localhost:8081/realms/quarkus-template/protocol/openid-connect/token \
+    --user quarkus-template-app:YSFwvyazqPmLukTvwBWa0ZhlhtP3T031 \
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'username=alice&password=alice&grant_type=password' | jq --raw-output '.access_token' \
+ )
 ```
+
+this will create an environment variable called access_token with the access token.
 
 ### Stop services
 ```shell
-docker-compose down
+kubectl delete -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
 ```
+
+#### NOTE: Setup of Keycloak is done by importing the json file defined in the config map. That config map can ge generated from the keycloak admin.
+
 
 ### Github Actions
 
