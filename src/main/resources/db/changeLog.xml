@@ -6,8 +6,8 @@
 
     <changeSet author="quarkus" id="1">
         <createTable tableName="ACCOUNTS">
-            <column name="ID" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+            <column name="ID" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="ACCOUNT_NUMBER" type="VARCHAR(255)"/>
             <column name="ACCOUNT_TYPE" type="VARCHAR(255)"/>

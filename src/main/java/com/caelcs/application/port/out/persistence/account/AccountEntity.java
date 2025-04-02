@@ -2,9 +2,7 @@ package com.caelcs.application.port.out.persistence.account;
 
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +19,13 @@ import java.util.UUID;
 public class AccountEntity {
 
     @Id
+    @Column(name = "id", columnDefinition = "UUID")
     private UUID id;
 
     @Column(name = "ACCOUNT_NUMBER")
     private String accountNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ACCOUNT_TYPE")
     private AccountType accountType;
 

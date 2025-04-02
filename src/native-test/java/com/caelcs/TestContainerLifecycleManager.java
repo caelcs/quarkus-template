@@ -20,7 +20,7 @@ public class TestContainerLifecycleManager implements QuarkusTestResourceLifecyc
     public static final KeycloakContainer keycloakContainer = new KeycloakContainer("quay.io/keycloak/keycloak:26.1.4")
             .withAdminUsername("admin")
             .withAdminPassword("admin")
-            .withRealmImportFile("test-realm.json");
+            .withRealmImportFiles("test-realm.json");
 
     @Override
     public Map<String, String> start() {
@@ -34,7 +34,7 @@ public class TestContainerLifecycleManager implements QuarkusTestResourceLifecyc
                 "quarkus.datasource.password", postgreSQLContainer.getPassword(),
                 "keycloak.url", keycloakContainer.getAuthServerUrl(),
                 "keycloak.default.client-id", "quarkus-template-app",
-                "keycloak.default.client-secret", "thisisasecret",
+                "keycloak.default.client-secret", "YSFwvyazqPmLukTvwBWa0ZhlhtP3T031",
                 "keycloak.default.realm", "quarkus-template"
         );
     }
