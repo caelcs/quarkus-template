@@ -64,6 +64,7 @@ dependencies {
     nativeTestImplementation('org.testcontainers:junit-jupiter')
     nativeTestImplementation('org.testcontainers:postgresql')
     nativeTestImplementation('org.testcontainers:mockserver')
+    nativeTestImplementation 'com.github.dasniko:testcontainers-keycloak:3.6.0'
 
     // Quarkus Testing
     nativeTestImplementation('io.quarkus:quarkus-junit5')

@@ -1,5 +1,11 @@
 quarkus:
 
+  oidc:
+    auth-server-url: ${keycloak.url}/realms/${keycloak.default.realm}
+    client-id: ${keycloak.default.client-id}
+    credentials:
+      secret: ${keycloak.default.client-secret}
+
   log:
     console:
       json:

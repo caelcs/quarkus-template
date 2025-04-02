@@ -1,0 +1,49 @@
+{
+  "id": "quarkus-template",
+  "realm": "quarkus-template",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "quarkus-template-app",
+      "directAccessGrantsEnabled": true,
+      "secret": "thisisasecret",
+      "protocol": "openid-connect"
+    }
+  ],
+  "users": [
+    {
+      "username": "test-user",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": ["user"]
+    },
+    {
+      "username": "admin-user",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "adminpassword"
+        }
+      ],
+      "realmRoles": ["admin"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Regular user role"
+      },
+      {
+        "name": "admin",
+        "description": "Administrator role"
+      }
+    ]
+  }
+}
