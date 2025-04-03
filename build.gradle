@@ -4,11 +4,19 @@ plugins {
     id("com.github.spotbugs") version "6.1.7"
     id("com.tngtech.jgiven.gradle-plugin") version "2.0.2"
     id("com.github.ben-manes.versions") version "0.52.0"
+    id("io.gatling.gradle") version "3.13.5.2"
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
+}
+
+sourceSets {
+    gatling {
+        java.srcDirs = ["src/gatling/java"]
+        resources.srcDirs = ["src/gatling/resources"]
+    }
 }
 
 dependencies {
@@ -71,6 +79,13 @@ dependencies {
     // Quarkus Testing
     nativeTestImplementation('io.quarkus:quarkus-junit5')
     nativeTestImplementation('io.rest-assured:rest-assured')
+
+
+    gatlingImplementation 'io.gatling:gatling-core:3.13.5'
+    gatlingImplementation 'io.gatling:gatling-http:3.13.5'
+    gatlingImplementation 'com.fasterxml.jackson.core:jackson-databind'
+    gatlingImplementation("jakarta.ws.rs:jakarta.ws.rs-api:4.0.0")
+    gatlingImplementation('io.rest-assured:rest-assured:5.5.1')
 }
 
 java {
