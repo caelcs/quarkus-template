@@ -145,11 +145,32 @@ clientSecret: YSFwvyazqPmLukTvwBWa0ZhlhtP3T031
 
 it can redirect to any url.
 
-you will have to login with the admin user in keycloak and create a user:
+it does includes a number of test users and roles.
 
 ```
 username: alice
 password: alice
+role: user
+
+username: alice
+password: alice
+role: user
+
+username: john
+password: john
+role: admin
+
+username: linda
+password: linda
+role: support
+
+username: lucas
+password: lucas
+role: report
+
+username: pinza
+password: pinza
+role: user, admin, support, report
 
 ```
 

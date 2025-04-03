@@ -13,6 +13,8 @@ import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static com.caelcs.auth.AuthAccessTokenUtil.*;
 import static io.restassured.RestAssured.given;
@@ -30,13 +32,14 @@ public class AccountIT {
         objectMapper.findAndRegisterModules();
     }
 
-    @Test
-    void testAccountCreation() throws JsonProcessingException {
+    @ParameterizedTest
+    @CsvSource({"alice, alice", "pinza, pinza"})
+    void testAccountCreation(String username, String password) throws JsonProcessingException {
         //Given
         AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
 
         //And
-        String accessToken = getUserRoleAccessToken();
+        String accessToken = getAccessToken(username, password);
         System.out.println("✅ accessToken: " + accessToken);
 
         //When
@@ -107,21 +110,22 @@ public class AccountIT {
                 .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 
-    @Test
-    void testAccountCreation_givenValidAccessTokenWithReportRole_then401Unauthorised() throws JsonProcessingException {
+    @ParameterizedTest
+    @CsvSource({"john, jhon", "linda, linda", "lucas, lucas"})
+    void testAccountCreation_givenValidAccessTokenWithWrongRole_then401Unauthorised(String username, String password) throws JsonProcessingException {
         //Given
         AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
 
         //And
-        String reportRoleAccessToken = getReportRoleAccessToken();
-        System.out.println("✅ Report AccessToken: " + reportRoleAccessToken);
+        String accessToken = getAccessToken(username, password);
+        System.out.println("✅ AccessToken: " + accessToken);
 
         //When
         String body = objectMapper.writeValueAsString(accountCreateWebModel);
         System.out.println("✅ body: " + body);
 
         given()
-                .auth().oauth2(reportRoleAccessToken)
+                .auth().oauth2(accessToken)
                 .body(body)
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .when()

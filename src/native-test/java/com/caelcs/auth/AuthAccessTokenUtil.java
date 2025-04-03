@@ -9,43 +9,10 @@ public class AuthAccessTokenUtil {
 
     public static final String CLIENT_ID = "quarkus-template-app";
     public static final String CLIENT_SECRET = "YSFwvyazqPmLukTvwBWa0ZhlhtP3T031";
+
     public static final String REALM = "quarkus-template";
-    public static final String USER_USERNAME = "alice";
-    public static final String USER_PASSWORD = "alice";
 
-    public static final String ADMIN_USERNAME = "john";
-    public static final String ADMIN_PASSWORD = "john";
-
-    public static final String SUPPORT_USERNAME = "linda";
-    public static final String SUPPORT_PASSWORD = "linda";
-
-    public static final String REPORT_USERNAME = "lucas";
-    public static final String REPORT_PASSWORD = "lucas";
-
-    public static final String ALL_USERNAME = "pinza";
-    public static final String ALL_PASSWORD = "pinza";
-
-    public static String getUserRoleAccessToken() {
-        return getAccessToken(USER_USERNAME, USER_PASSWORD);
-    }
-
-    public static String getAdminRoleAccessToken() {
-        return getAccessToken(ADMIN_USERNAME, ADMIN_PASSWORD);
-    }
-
-    public static String getReportRoleAccessToken() {
-        return getAccessToken(REPORT_USERNAME, REPORT_PASSWORD);
-    }
-
-    public static String getSupportRoleAccessToken() {
-        return getAccessToken(SUPPORT_USERNAME, SUPPORT_PASSWORD);
-    }
-
-    public static String getAllRoleAccessToken() {
-        return getAccessToken(ALL_USERNAME, ALL_PASSWORD);
-    }
-
-    private static String getAccessToken(String username, String password) {
+    public static String getAccessToken(String username, String password) {
         String authServerUrl = TestContainerLifecycleManager.keycloakContainer.getAuthServerUrl();
         System.out.println("✅ authurl: " + authServerUrl);
         return given()
