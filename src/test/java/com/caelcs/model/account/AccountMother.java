@@ -1,5 +1,7 @@
 package com.caelcs.model.account;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -14,6 +16,6 @@ public class AccountMother {
     }
 
     public static Account base() {
-        return base("343434343", AccountType.DEBIT);
+        return base(RandomStringUtils.secure().nextNumeric(6), AccountType.DEBIT);
     }
 }

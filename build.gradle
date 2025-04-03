@@ -40,6 +40,8 @@ dependencies {
 
     testImplementation("com.tngtech.archunit:archunit:${archunitVersion}")
 
+    testImplementation 'org.apache.commons:commons-lang3:3.17.0'
+
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     testCompileOnly("org.projectlombok:lombok:${lombokVersion}")

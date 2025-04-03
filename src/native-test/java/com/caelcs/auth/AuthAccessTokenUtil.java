@@ -2,6 +2,9 @@ package com.caelcs.auth;
 
 import com.caelcs.TestContainerLifecycleManager;
 import jakarta.ws.rs.core.MediaType;
+import org.junit.jupiter.params.provider.Arguments;
+
+import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 
@@ -53,4 +56,18 @@ public class AuthAccessTokenUtil {
         return "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4ZXNDWk1iRG5fMlRLNVdpLXJJcmN2WU5leENzRktZVFV1SGxJcnZ1dXVnIn0.eyJleHAiOjE3NDM2MzcyNTAsImlhdCI6MTc0MzYzNjk1MCwianRpIjoiYWY3ZWYzMTEtZTQ0ZC00ZTU1LWE4OTItYzAzZThlNzllYzgyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDozMzAxNy9yZWFsbXMvcXVhcmt1cy10ZW1wbGF0ZSIsInN1YiI6IjdhYzFiOGIwLTVlZTUtNGU0ZC1iNWEyLTk3NDhjN2Q3YWIxNSIsInR5cCI6IkJlYXJlciIsImF6cCI6InF1YXJrdXMtdGVtcGxhdGUtYXBwIiwic2lkIjoiYTgzYmY4ZDMtYWEwNi00N2M4LTlkZmItMDA1NjM0MDcxZDZiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXF1YXJrdXMtdGVtcGxhdGUiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJhbGljZSBhbGljZSIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsaWNlIiwiZ2l2ZW5fbmFtZSI6ImFsaWNlIiwiZmFtaWx5X25hbWUiOiJhbGljZSIsImVtYWlsIjoiYWxpY2VAYWxpY2UuY29tIn0.T8rWyYl_NPzx4PeC4p4-rS1006zhUct7d5YIYlLeV5RFXq3Fi9d6t25E5wHcq6OJyNXpXcstxWvdqx7X4mauwC4NLvDQYwuU1SGSAlCdNzD85BzHjbf7pCFo6QRyo-pDIi5X-NCqR8ps2b0iTVOR2Z4FS9lDcH91WA0rC2qmfFiW1_c9uwtA-SCOQ_iOzOd4juJWuw5p0IKnHlfOJI1xokb96quAxe-L-i9MOTpmPZ7F9mTVU6wTSu87RCCd6AVjD-e_7VUINERjdKDZDQRJjv4_hkz9CNY0TEGLJyCGyXoCtvnyli_z2kUSWAYn8txoR--QUDtrXfh5IizOvuLycQ";
     }
 
+    public static Stream<Arguments> allowedCredentials() {
+        return Stream.of(
+                Arguments.of(USER_USERNAME, USER_PASSWORD),
+                Arguments.of(ALL_USERNAME, ALL_PASSWORD)
+        );
+    }
+
+    public static Stream<Arguments> notAllowedCredentials() {
+        return Stream.of(
+                Arguments.of(REPORT_USERNAME, REPORT_PASSWORD),
+                Arguments.of(SUPPORT_USERNAME, SUPPORT_PASSWORD),
+                Arguments.of(ADMIN_USERNAME, ADMIN_PASSWORD)
+        );
+    }
 }

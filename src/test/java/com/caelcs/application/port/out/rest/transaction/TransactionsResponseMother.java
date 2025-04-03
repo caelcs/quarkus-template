@@ -10,9 +10,4 @@ public class TransactionsResponseMother {
                 .build();
     }
 
-    public static TransactionsResponse baseNoTransactions() {
-        return TransactionsResponse.builder()
-                .transactions(List.of())
-                .build();
-    }
 }

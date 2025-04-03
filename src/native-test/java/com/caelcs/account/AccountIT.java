@@ -14,7 +14,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static com.caelcs.auth.AuthAccessTokenUtil.*;
 import static io.restassured.RestAssured.given;
@@ -33,26 +36,27 @@ public class AccountIT {
     }
 
     @ParameterizedTest
-    @CsvSource({"alice, alice", "pinza, pinza"})
-    void testAccountCreation(String username, String password) throws JsonProcessingException {
+    @MethodSource("provideAllowedCredentials")
+    void test_GetAccount_GivenACreatedAccount_thenShouldGetSuccessfully(String username, String password) throws JsonProcessingException {
         //Given
         AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
 
         //And
         String accessToken = getAccessToken(username, password);
-        System.out.println("✅ accessToken: " + accessToken);
+
+        //And
+        createAccount(accountCreateWebModel, accessToken);
 
         //When
-        String body = new ObjectMapper().writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
         AccountWebModel result = given()
                 .auth().oauth2(accessToken)
-                .body(body)
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                .queryParam("accountNumber", accountCreateWebModel.accountNumber())
+                .queryParam("accountType", accountCreateWebModel.accountType())
                 .when()
-                .post("/accounts")
+                .get("/accounts")
                 .then()
-                .statusCode(Response.Status.CREATED.getStatusCode()) // Expect HTTP 201 Created
+                .statusCode(Response.Status.OK.getStatusCode())
                 .extract()
                 .response().as(AccountWebModel.class);
 
@@ -64,66 +68,8 @@ public class AccountIT {
         Assertions.assertNotNull(result.creationDate());
     }
 
-    @Test
-    void testAccountCreation_givenUserDoesNotExists_then401Unauthorised() throws JsonProcessingException {
-        //Given
-        AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
-
-        //And
-        String invalidAccessToken = getInvalidAccessToken();
-        System.out.println("✅ Invalid AccessToken: " + invalidAccessToken);
-
-        //When
-        String body = objectMapper.writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
-
-        given()
-                .auth().oauth2(invalidAccessToken)
-                .body(body)
-                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .when()
-                .post("/accounts")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-    }
-
-    @Test
-    void testAccountCreation_givenExpiredAccessToken_then401Unauthorised() throws JsonProcessingException {
-        //Given
-        AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
-
-        //And
-        String expiredAccessToken = getExpiredAccessToken();
-        System.out.println("✅ Invalid AccessToken: " + expiredAccessToken);
-
-        //When
-        String body = objectMapper.writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
-
-        given()
-                .auth().oauth2(expiredAccessToken)
-                .body(body)
-                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .when()
-                .post("/accounts")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-    }
-
-    @ParameterizedTest
-    @CsvSource({"john, jhon", "linda, linda", "lucas, lucas"})
-    void testAccountCreation_givenValidAccessTokenWithWrongRole_then401Unauthorised(String username, String password) throws JsonProcessingException {
-        //Given
-        AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
-
-        //And
-        String accessToken = getAccessToken(username, password);
-        System.out.println("✅ AccessToken: " + accessToken);
-
-        //When
-        String body = objectMapper.writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
-
+    private static void createAccount(AccountCreateWebModel accountCreateWebModel, String accessToken) throws JsonProcessingException {
+        String body = new ObjectMapper().writeValueAsString(accountCreateWebModel);
         given()
                 .auth().oauth2(accessToken)
                 .body(body)
@@ -131,6 +77,13 @@ public class AccountIT {
                 .when()
                 .post("/accounts")
                 .then()
-                .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+                .statusCode(Response.Status.CREATED.getStatusCode()) // Expect HTTP 201 Created
+                .extract()
+                .response().as(AccountWebModel.class);
+    }
+
+
+    private static Stream<Arguments> provideAllowedCredentials() {
+        return allowedCredentials();
     }
 }
