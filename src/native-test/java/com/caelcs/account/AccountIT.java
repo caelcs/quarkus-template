@@ -45,7 +45,6 @@ public class AccountIT {
 
         //And
         String accessToken = getAccessToken(username, password);
-        System.out.println("✅ accessToken: " + accessToken);
 
         //When
         String body = objectMapper.writeValueAsString(accountCreateWebModel);
@@ -66,12 +65,9 @@ public class AccountIT {
 
         //And
         String invalidAccessToken = getInvalidAccessToken();
-        System.out.println("✅ Invalid AccessToken: " + invalidAccessToken);
 
         //When
         String body = objectMapper.writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
-
         given()
                 .auth().oauth2(invalidAccessToken)
                 .body(body)
@@ -89,12 +85,9 @@ public class AccountIT {
 
         //And
         String expiredAccessToken = getExpiredAccessToken();
-        System.out.println("✅ Invalid AccessToken: " + expiredAccessToken);
 
         //When
         String body = objectMapper.writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
-
         given()
                 .auth().oauth2(expiredAccessToken)
                 .body(body)
@@ -113,12 +106,9 @@ public class AccountIT {
 
         //And
         String accessToken = getAccessToken(username, password);
-        System.out.println("✅ AccessToken: " + accessToken);
 
         //When
         String body = objectMapper.writeValueAsString(accountCreateWebModel);
-        System.out.println("✅ body: " + body);
-
         given()
                 .auth().oauth2(accessToken)
                 .body(body)
