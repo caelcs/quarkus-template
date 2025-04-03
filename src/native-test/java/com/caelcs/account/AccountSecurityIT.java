@@ -146,9 +146,9 @@ public class AccountSecurityIT {
 
     private static Stream<Arguments> provideNotAllowedCredentials() {
         return Stream.of(
-                Arguments.of("john", "jhon"),
-                Arguments.of("linda", "linda"),
-                Arguments.of("lucas", "lucas")
+                Arguments.of(REPORT_USERNAME, REPORT_PASSWORD),
+                Arguments.of(SUPPORT_USERNAME, SUPPORT_PASSWORD),
+                Arguments.of(ADMIN_USERNAME, ADMIN_PASSWORD)
         );
     }
 }
