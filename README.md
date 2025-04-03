@@ -173,6 +173,41 @@ kubectl delete -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
 
 #### NOTE: Setup of Keycloak is done by importing the json file defined in the config map. That config map can ge generated from the keycloak admin.
 
+## Export generating keycloak users and roles
+
+Exporting is not a straight forward process. You have to create a script that will export the users and roles from keycloak.
+The process export the realm but in a separate files the roles and users so then we have to merge them together.
+
+```shell
+First you can start postgres and keycloakby running:
+
+```shell
+kubectl apply -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
+```
+
+Second. Login to keycloak and create the roles and users that you need but keep in mind that you will have to adjust the native test to make it work.
+
+Third, get the pod id:
+
+
+```shell
+kubectl get pods
+```
+
+
+Forth, run the export process
+
+```shell
+kubectl exec -it keycloak-78cbfd58b8-87jz4 -- /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/export --users realm_file
+```
+
+Fifth you can copy the files to your local machine if you can or do a cat so you copy the content.
+
+```shell
+kubectl exec -it keycloak-78cbfd58b8-87jz4 -- cat /opt/keycloak/data/export/quarkus-template-realm.json
+```
+
+Sixth, Copy the content and paste it in the resources/test-realm.json file in the native-test folder.
 
 ### Github Actions
 

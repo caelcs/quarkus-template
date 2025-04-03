@@ -11,8 +11,10 @@ import io.quarkus.test.junit.QuarkusIntegrationTest;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static com.caelcs.auth.AuthAccessTokenUtil.*;
 import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 
@@ -20,13 +22,21 @@ import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 @QuarkusTestResource(TestContainerLifecycleManager.class)
 public class AccountIT {
 
+    private static ObjectMapper objectMapper;
+
+    @BeforeAll
+    static void objectMapperInstance() {
+        objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+    }
+
     @Test
     void testAccountCreation() throws JsonProcessingException {
         //Given
         AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
 
         //And
-        String accessToken = getAccessToken("alice", "alice");
+        String accessToken = getUserRoleAccessToken();
         System.out.println("✅ accessToken: " + accessToken);
 
         //When
@@ -51,20 +61,72 @@ public class AccountIT {
         Assertions.assertNotNull(result.creationDate());
     }
 
-    private String getAccessToken(String username, String password) {
-        String authServerUrl = TestContainerLifecycleManager.keycloakContainer.getAuthServerUrl();
-        System.out.println("✅ authurl: " + authServerUrl);
-        return given()
-                .relaxedHTTPSValidation()
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .auth().preemptive().basic("quarkus-template-app", "YSFwvyazqPmLukTvwBWa0ZhlhtP3T031")
-                .formParam("grant_type", "password")
-                .formParam("username", username)
-                .formParam("password", password)
+    @Test
+    void testAccountCreation_givenUserDoesNotExists_then401Unauthorised() throws JsonProcessingException {
+        //Given
+        AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
+
+        //And
+        String invalidAccessToken = getInvalidAccessToken();
+        System.out.println("✅ Invalid AccessToken: " + invalidAccessToken);
+
+        //When
+        String body = objectMapper.writeValueAsString(accountCreateWebModel);
+        System.out.println("✅ body: " + body);
+
+        given()
+                .auth().oauth2(invalidAccessToken)
+                .body(body)
+                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .when()
-                .post(authServerUrl + "/realms/quarkus-template/protocol/openid-connect/token")
+                .post("/accounts")
                 .then()
-                .statusCode(200)
-                .extract().path("access_token");
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    void testAccountCreation_givenExpiredAccessToken_then401Unauthorised() throws JsonProcessingException {
+        //Given
+        AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
+
+        //And
+        String expiredAccessToken = getExpiredAccessToken();
+        System.out.println("✅ Invalid AccessToken: " + expiredAccessToken);
+
+        //When
+        String body = objectMapper.writeValueAsString(accountCreateWebModel);
+        System.out.println("✅ body: " + body);
+
+        given()
+                .auth().oauth2(expiredAccessToken)
+                .body(body)
+                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                .when()
+                .post("/accounts")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    void testAccountCreation_givenValidAccessTokenWithReportRole_then401Unauthorised() throws JsonProcessingException {
+        //Given
+        AccountCreateWebModel accountCreateWebModel = AccountCreateWebModelMother.base();
+
+        //And
+        String reportRoleAccessToken = getReportRoleAccessToken();
+        System.out.println("✅ Report AccessToken: " + reportRoleAccessToken);
+
+        //When
+        String body = objectMapper.writeValueAsString(accountCreateWebModel);
+        System.out.println("✅ body: " + body);
+
+        given()
+                .auth().oauth2(reportRoleAccessToken)
+                .body(body)
+                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                .when()
+                .post("/accounts")
+                .then()
+                .statusCode(Response.Status.FORBIDDEN.getStatusCode());
     }
 }
