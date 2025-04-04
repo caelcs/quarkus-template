@@ -35,15 +35,15 @@ In terms of testing:
 - ✅ Using Mocks
 - ✅ Use of Architecture Unit Test
 - ✅ Use of Wiremock for stubs
+- ✅ Use of GatLing for Stress Tests that can run against different environments
 
 Nice to have:
 
-- ❌ Define metrics for the endpoints
+- ❌ Define custom metrics for the endpoints
 - ❌ Resiliance4J for REST Clients
 - ❌ Pagination
 - ❌ Audit for tables
 - ❌ Events and outbox pattern
-- ❌ Use of GatLing for Stress Tests
 - ❌ Use of BDD
 
 
@@ -250,3 +250,23 @@ for this you have to create github tab that starts with v*
 
 this will kick the release build.
 
+## Stress tests using gatling
+
+the repo comes with a set of stress tests using gatling. there is source folder called gatlin/kubernetes where you can find all the manifests.
+
+The way this works is write your scenarios and then build a docker image running from the root of the project.
+
+```shell
+docker build -f src/gatling/docker/Dockerfile -t adolfoecs/quarkus-template-gatling:1.0.0 .
+```
+then push the image to docker hub and update the gatling.yaml located in the kubernetes folder with the new image.
+
+then you can start the tests by running all the pods:
+
+```shell
+kubectl apply -f src/gatling/kubernetes/postgres.yaml -f src/gatling/kubernetes/keycloak.yaml -f src/gatling/kubernetes/quarkus-template.yaml -f src/gatling/kubernetes/gatling.yaml
+```
+
+after that the test will start running.
+
+You can run this by running the test against any environment by deploying the gatling pod.

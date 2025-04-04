@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatling-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gatling
+  template:
+    metadata:
+      labels:
+        app: gatling
+    spec:
+      containers:
+        - name: gatling
+          image: adolfoecs/quarkus-template-gatling:1.0.0
+          env:
+            - name: KEYCLOAK_URL
+              value: "http://keycloak:8080"
+            - name: QUARKUS_APP_URL
+              value: "http://quarkus-app:8080"
+            - name: CONCURRENT_USERS
+              value: "30"
+            - name: DURATION
+              value: "30"

@@ -12,8 +12,7 @@ public class OIDCApi {
     public static final String REALM = "quarkus-template";
 
     public static String getAccessToken(String username, String password) {
-        String authServerUrl = "http://localhost:8082";
-        System.out.println("✅ authurl: " + authServerUrl);
+        String authServerUrl = System.getenv("KEYCLOAK_URL");
         return given()
                 .relaxedHTTPSValidation()
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -15,23 +17,15 @@ public class CreateAccountSimulation extends Simulation {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static String toJson(Object object) throws Exception {
-        return objectMapper.writeValueAsString(object);
-    }
-
-    private static AccountCreateWebModel createAccountPayload() throws Exception {
-        return AccountCreateWebModelMother.base();
-    }
-
     private final HttpProtocolBuilder httpProtocol = http
-            .baseUrl("http://localhost:8081") // Change to your API base URL
-            .acceptHeader("application/json")
-            .contentTypeHeader("application/json");
+            .baseUrl(System.getenv("QUARKUS_APP_URL"))
+            .acceptHeader(MediaType.APPLICATION_JSON)
+            .contentTypeHeader(MediaType.APPLICATION_JSON);
 
     private final ScenarioBuilder scn = scenario("Create Account")
             .exec(http("Create Account")
                     .post("/accounts")
-                    .header("Authorization", String.format("Bearer %s", OIDCApi.getAccessToken("alice", "alice")))
+                    .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", OIDCApi.getAccessToken("alice", "alice")))
                     .body(StringBody(session -> {
                         try {
                             return toJson(createAccountPayload());
@@ -46,8 +40,17 @@ public class CreateAccountSimulation extends Simulation {
     {
         setUp(
                 scn.injectOpen(
-                        rampUsers(50).during(30) // 50 users over 30 seconds
+                        rampUsers(Integer.parseInt(System.getenv("CONCURRENT_USERS")))
+                                .during(Integer.parseInt(System.getenv("DURATION")))
                 )
         ).protocols(httpProtocol);
+    }
+
+    private static String toJson(Object object) throws Exception {
+        return objectMapper.writeValueAsString(object);
+    }
+
+    private static AccountCreateWebModel createAccountPayload() {
+        return AccountCreateWebModelMother.base();
     }
 }
