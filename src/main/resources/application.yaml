@@ -1,4 +1,9 @@
 quarkus:
+  micrometer:
+    export:
+      prometheus:
+        enabled: true
+        path: /q/metrics
 
   oidc:
     auth-server-url: ${keycloak.url}/realms/${keycloak.default.realm}
