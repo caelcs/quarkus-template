@@ -21,6 +21,6 @@ spec:
             - name: QUARKUS_APP_URL
               value: "http://quarkus-app:8080"
             - name: CONCURRENT_USERS
-              value: "5000"
+              value: "10000"
             - name: DURATION
-              value: "120"
+              value: "6000"

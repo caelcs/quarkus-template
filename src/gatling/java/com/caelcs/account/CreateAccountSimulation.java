@@ -26,9 +26,10 @@ public class CreateAccountSimulation extends Simulation {
             .contentTypeHeader(MediaType.APPLICATION_JSON);
 
     private final ScenarioBuilder scn = scenario("Create Account")
+            .exec(session -> session.set("accessToken", OIDCApi.getAccessToken("alice", "alice")))
             .exec(http("Create Account")
                     .post("/accounts")
-                    .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", OIDCApi.getAccessToken("alice", "alice")))
+                    .header(HttpHeaders.AUTHORIZATION, session -> String.format("Bearer %s", session.getString("accessToken")))
                     .body(StringBody(session -> {
                         try {
                             return toJson(createAccountPayload());
