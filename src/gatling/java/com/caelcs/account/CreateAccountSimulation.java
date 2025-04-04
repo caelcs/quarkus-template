@@ -3,6 +3,7 @@ package com.caelcs.account;
 import com.caelcs.adapter.in.rest.account.AccountCreateWebModel;
 import com.caelcs.adapter.in.rest.account.AccountCreateWebModelMother;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
@@ -13,6 +14,8 @@ import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
 
+
+@SuppressFBWarnings(value = {"M", "B", "CT"}, justification = "gatling tests")
 public class CreateAccountSimulation extends Simulation {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
