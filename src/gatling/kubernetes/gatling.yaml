@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gatling
-          image: adolfoecs/quarkus-template-gatling:1.0.0
+          image: adolfoecs/quarkus-template-gatling:1.0.1
           env:
             - name: KEYCLOAK_URL
               value: "http://keycloak:8080"
@@ -23,4 +23,4 @@ spec:
             - name: CONCURRENT_USERS
               value: "10000"
             - name: DURATION
-              value: "6000"
+              value: "180"
