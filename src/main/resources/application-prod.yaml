@@ -19,11 +19,6 @@ quarkus:
       idle-timeout: 600000
       connection-timeout: 30000
 
-  thread-pool:
-    core-threads: 10
-    max-threads: 50
-    queue-size: 100
-
   vertx:
     event-loops-pool-size: 32
     worker-pool-size: 50
