@@ -1,130 +1,79 @@
-# 3️⃣ Prometheus ConfigMap
+---
 apiVersion: v1
-kind: ConfigMap
+kind: ServiceAccount
 metadata:
-  name: prometheus-config
-data:
-  prometheus.yml: |
-    global:
-      scrape_interval: 5s
-    scrape_configs:
-      - job_name: 'quarkus-app'
-        metrics_path: '/q/metrics'
-        static_configs:
-          - targets: ['quarkus-app.default.svc.cluster.local:8080']
-      - job_name: 'kubernetes-nodes'
-        kubernetes_sd_configs:
-          - role: node
-        relabel_configs:
-          - action: labelmap
-            regex: __meta_kubernetes_node_label_(.+)
-      - job_name: 'kubernetes-pods'
-        kubernetes_sd_configs:
-          - role: pod
-        relabel_configs:
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
-          - source_labels: [__meta_kubernetes_namespace]
-            action: replace
-            target_label: kubernetes_namespace
-          - source_labels: [__meta_kubernetes_pod_name]
-            action: replace
-            target_label: kubernetes_pod_name
+  name: prometheus
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+  - apiGroups: [""]
+    resources: ["pods","endpoints","services"]
+    verbs: ["get", "list","watch"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["nodes", "pods"]
+    verbs: ["get", "list"]
+  - apiGroups: ["monitoring.coreos.com"]
+    resources: ["podmonitors"]
+    verbs: ["get", "list", "create", "delete","watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: default  # Adjust this if your Prometheus is in a different namespace
+roleRef:
+  kind: ClusterRole
+  name: prometheus
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: quarkus-app
+  namespace: default
+  labels:
+    team: backend
+spec:
+  selector:
+    matchLabels:
+      app: quarkus-app  # Label your app's pods accordingly
+  podMetricsEndpoints:
+    - port: web  # Ensure this matches the port name in your Quarkus app's deployment
+      path: /q/metrics  # The path where metrics are exposed
+      interval: 5s
+      targetPort: 8080
 ---
 # 4️⃣ Prometheus Deployment
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
 metadata:
   name: prometheus
 spec:
   replicas: 1
-  selector:
+  serviceAccountName: prometheus
+  version: v2.55.1
+  podMonitorSelector:
     matchLabels:
-      app: prometheus
-  template:
-    metadata:
-      labels:
-        app: prometheus
-    spec:
-      containers:
-        - name: prometheus
-          image: prom/prometheus
-          args:
-            - "--config.file=/etc/prometheus/prometheus.yml"
-          ports:
-            - containerPort: 9090
-          volumeMounts:
-            - name: config-volume
-              mountPath: /etc/prometheus
-      volumes:
-        - name: config-volume
-          configMap:
-            name: prometheus-config
----
-# 5️⃣ Prometheus Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: prometheus-service
-spec:
-  selector:
-    app: prometheus
-  ports:
-    - protocol: TCP
-      port: 9090
-      targetPort: 9090
-      nodePort: 30090
-  type: NodePort
----
-# 6️⃣ Grafana ConfigMap
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: grafana-dashboards
-  labels:
-    grafana_dashboard: "true"
-data:
-  dashboard.json: |
-    {
-      "dashboard": {
-        // your JSON dashboard content here
-      }
-    }
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: grafana-dashboard-provisioning
-data:
-  dashboards.yaml: |
-    apiVersion: 1
-    providers:
-      - name: 'default'
-        orgId: 1
-        folder: ''
-        type: file
-        disableDeletion: false
-        updateIntervalSeconds: 10
-        options:
-          path: /etc/grafana/provisioning/dashboards
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: grafana-datasources
-data:
-  datasource.yaml: |
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        type: prometheus
-        access: proxy
-        url: http://prometheus-service.default.svc.cluster.local:9090
-        isDefault: true
-        jsonData:
-          timeInterval: "5s"
-
+      team: backend
+  resources:
+    requests:
+      memory: 400Mi
+      cpu: 500m
+    limits:
+      memory: 1Gi
+      cpu: 1
+  retention: 15d
 ---
 # 6️⃣ Grafana Deployment
 apiVersion: apps/v1
@@ -147,25 +96,11 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: dashboard-volume
-              mountPath: /etc/grafana/provisioning/dashboards
-              readOnly: true
-            - name: datasource-volume
-              mountPath: /etc/grafana/provisioning/datasources
-              readOnly: true
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
       volumes:
-        - name: dashboard-volume
-          configMap:
-            name: grafana-dashboards
-            items:
-              - key: dashboard.json
-                path: dashboard.json
-        - name: datasource-volume
-          configMap:
-            name: grafana-datasources
-            items:
-              - key: datasource.yaml
-                path: datasource.yaml
+        - name: grafana-storage
+          emptyDir: { }
 ---
 # 7️⃣ Grafana Service
 apiVersion: v1
@@ -181,3 +116,4 @@ spec:
       targetPort: 3000
       nodePort: 30300
   type: NodePort
+---

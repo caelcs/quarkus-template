@@ -18,7 +18,8 @@ spec:
         - name: quarkus-app
           image: adolfoecs/quarkus-template:latest
           ports:
-            - containerPort: 8080
+            - name: web
+              containerPort: 8080
           env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
               value: "jdbc:postgresql://postgres:5432/quarkusdb"
@@ -46,8 +47,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: quarkus-app
+  labels:
+    app: quarkus-app
 spec:
   ports:
-    - port: 8080
+    - name: web
+      port: 8080
   selector:
     app: quarkus-app

@@ -44,7 +44,7 @@ public class CreateAccountSimulation extends Simulation {
     {
         setUp(
                 scn.injectOpen(
-                        rampUsers(Integer.parseInt(System.getenv("CONCURRENT_USERS")))
+                        constantUsersPerSec(Integer.parseInt(System.getenv("CONCURRENT_USERS")))
                                 .during(Integer.parseInt(System.getenv("DURATION")))
                 )
         ).protocols(httpProtocol);
