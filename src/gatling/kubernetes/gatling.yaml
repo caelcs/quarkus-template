@@ -1,12 +1,8 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: gatling-test
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: gatling
   template:
     metadata:
       labels:
@@ -21,6 +17,7 @@ spec:
             - name: QUARKUS_APP_URL
               value: "http://quarkus-app:8080"
             - name: CONCURRENT_USERS
-              value: "10000"
+              value: "5000"
             - name: DURATION
-              value: "180"
+              value: "300"
+      restartPolicy: Never

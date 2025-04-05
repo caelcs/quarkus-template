@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: quarkus-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: quarkus-app
@@ -32,6 +32,13 @@ spec:
               value: "quarkus-template-app"
             - name: QUARKUS_OIDC_CREDENTIALS_SECRET
               value: "YSFwvyazqPmLukTvwBWa0ZhlhtP3T031"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
 
 ---
 

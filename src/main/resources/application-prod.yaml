@@ -11,3 +11,15 @@ quarkus:
 
   datasource:
     db-kind: postgresql
+    jdbc:
+      max-size: 50
+      min-size: 10
+      initial-size: 10
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      connection-timeout: 30000
+
+  vertx:
+    event-loops-pool-size: 32
+    worker-pool-size: 50
+    internal-blocking-pool-size: 50
