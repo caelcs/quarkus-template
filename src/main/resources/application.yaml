@@ -1,5 +1,6 @@
 quarkus:
   micrometer:
+    enabled: true
     export:
       prometheus:
         enabled: true

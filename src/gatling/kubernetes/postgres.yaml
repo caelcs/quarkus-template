@@ -62,6 +62,7 @@ spec:
       containers:
         - name: postgres
           image: postgres:16-alpine
+          args: ["-c", "max_connections=400"]
           ports:
             - containerPort: 5432
           env:
@@ -71,6 +72,13 @@ spec:
               value: "admin"
             - name: POSTGRES_DB
               value: "postgres"
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "1"
+            limits:
+              memory: "8Gi"
+              cpu: "2"
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
