@@ -39,7 +39,7 @@ spec:
               cpu: "500m"
             limits:
               memory: "1Gi"
-              cpu: "8"
+              cpu: "4"
 
 ---
 
