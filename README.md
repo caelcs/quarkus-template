@@ -1,272 +1,234 @@
-# quarkus-template
+# Quarkus Template
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This project uses **[Quarkus](https://quarkus.io/)** — the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+The goal of this template is to provide engineers with a quick and practical reference for the most common enterprise use cases when building microservices with Quarkus.
 
-The goal of ths template is to give the engineers a quick look how to use the most common
-libraries.
+---
 
-- ✅ Exposing REST Endpoints
-- ✅ Database Integration
-- ✅ Connection poll for database
-- ✅ Declaring beans in configuration classes
-- ✅ Exposing Metrics Endpoints
-- ✅ Exposing Health Endpoints
-- ✅ Use of REST Clients with a connection poll
-- ✅ Generating and Exposing Swagger
-- ✅ Using Hexagonal Architecture
-- ✅ Use of Yaml Configuration Files
-- ✅ Loading configurations from yaml to class
-- ✅ Use of MapStruct
-- ✅ Use of logging and log levels
-- ✅ Logging Json for PROD
-- ✅ MDC to generate correlation id and passing it to the REST client
-- ✅ Error handling
-- ✅ Dependencies update detection
-- ✅ Use github actions for CI at pull request, main and release branches
-- ✅ Attached native binary to the release on github
-- ✅ Published docker images to DockerHub
-- ✅ Support for OpenId Connect using Keycloak
+## ✅ Features
 
-In terms of testing:
+### Application Features
 
-- ✅ Integration Tests (JVM and Native mode)
-- ✅ Using Mocks
-- ✅ Use of Architecture Unit Test
-- ✅ Use of Wiremock for stubs
-- ✅ Use of GatLing for Stress Tests that can run against different environments
+- **REST API** exposure
+- **Database integration** with connection pooling
+- **Bean declarations** via configuration classes
+- **Micrometer metrics** endpoint exposure
+- **Health checks** for readiness and liveness
+- **REST Clients** using connection pools
+- **Swagger/OpenAPI** generation and exposure
+- **Hexagonal architecture**
+- **YAML configuration**
+- **Config-to-class binding**
+- **MapStruct integration**
+- **Structured logging** with JSON for PROD
+- **MDC** correlation ID generation and propagation to REST clients
+- **Centralized error handling**
+- **Dependency version monitoring**
+- **CI/CD with GitHub Actions**
+    - Pull request builds
+    - Main branch builds
+    - Release builds
+- **Native binary generation** and attachment to GitHub releases
+- **Docker image publishing** to Docker Hub
+- **OpenID Connect** support via Keycloak
 
-Nice to have:
+### Testing Support
 
-- ❌ Define custom metrics for the endpoints
-- ❌ Resiliance4J for REST Clients
-- ❌ Pagination
-- ❌ Audit for tables
-- ❌ Events and outbox pattern
-- ❌ Use of BDD
+- Integration tests (JVM and Native mode)
+- Mocking
+- Architecture unit tests
+- WireMock for stubbing
+- Gatling-based stress testing (targeting different environments)
 
+### ✨ Nice to Have (WIP)
 
-## Running the application in dev mode
+- ❌ Custom metrics per endpoint
+- ❌ Resilience4J for REST clients
+- ❌ Pagination support
+- ❌ Audit logging for tables
+- ❌ Event sourcing and outbox pattern
+- ❌ BDD-style tests
 
-You can run your application in dev mode that enables live coding using:
+---
 
-```shell script
+## 🚀 Getting Started
+
+### Run in Dev Mode
+
+```bash
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Access Dev UI: [http://localhost:8080/q/dev](http://localhost:8080/q/dev)
 
-## Packaging and running the application
+---
 
-The application can be packaged using:
+## 🧱 Build and Package
 
-```shell script
+### JVM Mode
+
+```bash
 ./gradlew build
 ```
 
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
+Run the app:
 
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
+```bash
+java -jar build/quarkus-app/quarkus-run.jar
+```
 
-If you want to build an _über-jar_, execute the following command:
+### Uber Jar
 
-```shell script
+```bash
 ./gradlew build -Dquarkus.package.jar.type=uber-jar
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
+---
 
-## Creating a native executable
+## 🧊 Native Executable
 
-You can create a native executable and creating a docker image using the following command.
+### Local Build (Requires GraalVM)
 
-```shell script
+```bash
 ./gradlew clean build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+### Container Build (No GraalVM Required)
 
-```shell script
-./gradlew build -Dquarkus.package.jar.enabled=false -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
+```bash
+./gradlew build -Dquarkus.native.container-build=true
 ```
 
-You can then execute your native executable with: `./build/quarkus-template-1.0.0-SNAPSHOT-runner`
+---
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
+## 🐳 Docker Image
 
-## Building docker image
+After building the native executable:
 
-it is quite easy, after you build the native executable you can build the docker image using:
-
-```shell script
- docker build -f src/main/docker/Dockerfile.native-micro -t com.caelcs/quarkus-template .
+```bash
+docker build -f src/main/docker/Dockerfile.native-micro -t com.caelcs/quarkus-template .
 ```
 
-## Running Native Tests
+---
 
-```shell
+## 🧪 Run Native Tests
+
+```bash
 ./gradlew clean testNative
 ```
 
-## Running docker image prod for tests
+---
 
-In order to run the platform locally please install the following:
+## 🧰 Local Testing with Docker
+
+### Requirements
 
 - Rancher Desktop or Minikube
 
-After this you can run all the manifest to start the services
+### Deploy Services
 
-### Start services
-```shell
-cd src/main/kuberntes
+```bash
+cd src/gatling/kubernetes
 kubectl apply -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
 ```
 
-Now once all the services are up and running you can run the following command to check the status of the services
-```shell
+### Port Forwarding
+
+```bash
 kubectl port-forward svc/quarkus-app 8081:8080
 kubectl port-forward svc/keycloak 8082:8080
 kubectl port-forward svc/postgres 5432:5432
-````
-
-so now you can test keycloak by browsing to the following URL
-```shell
-http://localhost:8082/
 ```
 
-The configuration that we have provided includes a client:
+Access Keycloak: [http://localhost:8082](http://localhost:8082)
+
+### Pre-configured Keycloak Client
 
 ```
 clientId: quarkus-template-app
 clientSecret: YSFwvyazqPmLukTvwBWa0ZhlhtP3T031
 ```
 
-it can redirect to any url.
+### Test Users
 
-it does includes a number of test users and roles.
+| Username | Password | Roles                  |
+|----------|----------|------------------------|
+| alice    | alice    | user                   |
+| john     | john     | admin                  |
+| linda    | linda    | support                |
+| lucas    | lucas    | report                 |
+| pinza    | pinza    | user, admin, support, report |
 
-```
-username: alice
-password: alice
-role: user
+### Get Access Token (Example)
 
-username: alice
-password: alice
-role: user
-
-username: john
-password: john
-role: admin
-
-username: linda
-password: linda
-role: support
-
-username: lucas
-password: lucas
-role: report
-
-username: pinza
-password: pinza
-role: user, admin, support, report
-
+```bash
+export access_token=$(curl -X POST http://localhost:8082/realms/quarkus-template/protocol/openid-connect/token \
+--user quarkus-template-app:YSFwvyazqPmLukTvwBWa0ZhlhtP3T031 \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+-d 'username=alice&password=alice&grant_type=password' | jq -r '.access_token')
 ```
 
-Assuming you have created the user alice, you can generate an access token:
+---
 
-```shell
-export access_token=$(\
-    curl --insecure -X POST http://localhost:8081/realms/quarkus-template/protocol/openid-connect/token \
-    --user quarkus-template-app:YSFwvyazqPmLukTvwBWa0ZhlhtP3T031 \
-    -H 'content-type: application/x-www-form-urlencoded' \
-    -d 'username=alice&password=alice&grant_type=password' | jq --raw-output '.access_token' \
- )
-```
+## 🛑 Stop Services
 
-this will create an environment variable called access_token with the access token.
-
-### Stop services
-```shell
+```bash
 kubectl delete -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
 ```
 
-#### NOTE: Setup of Keycloak is done by importing the json file defined in the config map. That config map can ge generated from the keycloak admin.
+---
 
-## Export generating keycloak users and roles
+## 🔄 Export Keycloak Users & Roles
 
-Exporting is not a straight forward process. You have to create a script that will export the users and roles from keycloak.
-The process export the realm but in a separate files the roles and users so then we have to merge them together.
-
-```shell
-First you can start postgres and keycloakby running:
-
-```shell
-kubectl apply -f postgres.yaml -f keycloak.yaml -f quarkus-template.yaml
-```
-
-Second. Login to keycloak and create the roles and users that you need but keep in mind that you will have to adjust the native test to make it work.
-
-Third, get the pod id:
-
-
-```shell
+```bash
+kubectl apply -f postgres.yaml -f keycloak.yaml
 kubectl get pods
+kubectl exec -it <keycloak-pod-id> -- /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/export --users realm_file
+kubectl exec -it <keycloak-pod-id> -- cat /opt/keycloak/data/export/quarkus-template-realm.json
 ```
 
+Paste the realm JSON into `resources/test-realm.json`.
 
-Forth, run the export process
+---
 
-```shell
-kubectl exec -it keycloak-78cbfd58b8-87jz4 -- /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/export --users realm_file
+## ✅ GitHub Actions
+
+### Pipelines
+
+- **Pull Request**: Triggered on `feature/*` targeting `main`
+- **Main Branch**: On push to `main`
+- **Release**: On GitHub Release tagged as `v*`
+
+```bash
+git tag -a v1.0.15 -m "Release version 1.0.15"
+git push origin v1.0.15
 ```
 
-Fifth you can copy the files to your local machine if you can or do a cat so you copy the content.
+---
 
-```shell
-kubectl exec -it keycloak-78cbfd58b8-87jz4 -- cat /opt/keycloak/data/export/quarkus-template-realm.json
+## 📈 Stress Testing with Gatling
+
+### Prerequisites
+
+- Rancher Desktop or Minikube
+- Prometheus Operator installed
+
+```bash
+helm install prometheus-operator prometheus-community/kube-prometheus-stack
 ```
 
-Sixth, Copy the content and paste it in the resources/test-realm.json file in the native-test folder.
+### Build & Push Gatling Image
 
-### Github Actions
-
-There three CI pipelines available:
-
-Pull Request: This pipeline is triggered when you create a pull request that is derived from main branch and the name start with feature/
-
-Main: This pipeline is triggered when you push to the main branch or merge the pull request.
-
-release: This pipeline is triggered when you create a release on the main branch. 
-It will build the docker image and push it to DockerHub.
-
-for this you have to create github tab that starts with v*
-
-```shell
- git tag -a v1.0.15 -m "Release version 1.0.15"
- git push origin v1.0.15
-```
-
-this will kick the release build.
-
-## Stress tests using gatling
-
-the repo comes with a set of stress tests using gatling. there is source folder called gatlin/kubernetes where you can find all the manifests.
-
-The way this works is write your scenarios and then build a docker image running from the root of the project.
-
-```shell
+```bash
 docker build -f src/gatling/docker/Dockerfile -t adolfoecs/quarkus-template-gatling:1.0.0 .
 ```
-then push the image to docker hub and update the gatling.yaml located in the kubernetes folder with the new image.
 
-then you can start the tests by running all the pods:
+Update the image in `src/gatling/kubernetes/gatling.yaml` and apply:
 
-```shell
-kubectl apply -f src/gatling/kubernetes/postgres.yaml -f src/gatling/kubernetes/keycloak.yaml -f src/gatling/kubernetes/quarkus-template.yaml -f src/gatling/kubernetes/gatling.yaml
+```bash
+kubectl apply -f src/gatling/kubernetes/postgres.yaml \
+              -f src/gatling/kubernetes/keycloak.yaml \
+              -f src/gatling/kubernetes/quarkus-template.yaml \
+              -f src/gatling/kubernetes/gatling.yaml
 ```
-
-after that the test will start running.
-
-You can run this by running the test against any environment by deploying the gatling pod.
