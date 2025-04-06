@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: quarkus-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: quarkus-app
@@ -39,7 +39,7 @@ spec:
               cpu: "500m"
             limits:
               memory: "1Gi"
-              cpu: "5"
+              cpu: "8"
 
 ---
 

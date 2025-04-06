@@ -78,7 +78,7 @@ spec:
               cpu: "1"
             limits:
               memory: "8Gi"
-              cpu: "5"
+              cpu: "8"
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
