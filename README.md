@@ -212,10 +212,12 @@ git push origin v1.0.15
 ### Prerequisites
 
 - Rancher Desktop or Minikube
-- Prometheus Operator installed
+- Prometheus Operator installed. This would give you Prometheus and Grafana
 
 ```bash
-helm install prometheus-operator prometheus-community/kube-prometheus-stack
+helm install prometheus-operator prometheus-community/kube-prometheus-stack  \ 
+  --set alertmanager.enabled=false \  
+  --set prometheus.prometheusSpec.podMonitorSelector.matchLabels.team=backend
 ```
 
 ### Build & Push Gatling Image

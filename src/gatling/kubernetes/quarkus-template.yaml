@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: quarkus-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: quarkus-app
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: quarkus-app
-          image: adolfoecs/quarkus-template:latest
+          image: adolfoecs/quarkus-template:v1.0.35
           ports:
             - name: web
               containerPort: 8080

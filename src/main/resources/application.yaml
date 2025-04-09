@@ -1,4 +1,5 @@
 quarkus:
+
   micrometer:
     enabled: true
     export:
@@ -28,6 +29,8 @@ quarkus:
       enable-metrics: true
       url: jdbc:h2:mem:testdb
       max-size: 13
+    metrics:
+      enabled: true
 
   liquibase:
     migrate-at-start: true
