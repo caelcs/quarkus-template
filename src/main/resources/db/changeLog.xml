@@ -14,4 +14,10 @@
             <column name="CREATION_DATE" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
+    <changeSet author="quarkus" id="2">
+        <createIndex indexName="idx_account_number_type" tableName="ACCOUNTS">
+            <column name="ACCOUNT_NUMBER"/>
+            <column name="ACCOUNT_TYPE"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

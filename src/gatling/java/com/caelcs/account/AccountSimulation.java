@@ -16,7 +16,7 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 
 @SuppressFBWarnings(value = {"M", "B", "CT"}, justification = "gatling tests")
-public class CreateAccountSimulation extends Simulation {
+public class AccountSimulation extends Simulation {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -27,18 +27,31 @@ public class CreateAccountSimulation extends Simulation {
 
     private final ScenarioBuilder scn = scenario("Create Account")
             .exec(session -> session.set("accessToken", OIDCApi.getAccessToken("alice", "alice")))
+            .exec(session -> session.set("accountDetail", createAccountPayload()))
             .exec(http("Create Account")
                     .post("/accounts")
                     .header(HttpHeaders.AUTHORIZATION, session -> String.format("Bearer %s", session.getString("accessToken")))
                     .body(StringBody(session -> {
                         try {
-                            return toJson(createAccountPayload());
+                            return toJson(session.get("accountDetail"));
                         } catch (Exception e) {
                             e.printStackTrace();
                             return "";
                         }
                     }))
                     .check(status().is(201))
+            ).exec(http("Get Account")
+                    .post(session -> String.format("/accounts?accountNumber=%s&accountType=%s", session.<AccountCreateWebModel>get("accountDetails").accountNumber(), session.<AccountCreateWebModel>get("accountDetails").accountType().name()))
+                    .header(HttpHeaders.AUTHORIZATION, session -> String.format("Bearer %s", session.getString("accessToken")))
+                    .body(StringBody(session -> {
+                        try {
+                            return toJson(session.get("accountDetail"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return "";
+                        }
+                    }))
+                    .check(status().is(200))
             );
 
     {
