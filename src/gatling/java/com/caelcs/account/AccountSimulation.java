@@ -10,6 +10,8 @@ import io.gatling.javaapi.http.HttpProtocolBuilder;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 
+import java.time.Duration;
+
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
@@ -33,24 +35,17 @@ public class AccountSimulation extends Simulation {
                     .header(HttpHeaders.AUTHORIZATION, session -> String.format("Bearer %s", session.getString("accessToken")))
                     .body(StringBody(session -> {
                         try {
-                            return toJson(session.get("accountDetail"));
+                            return toJson(session.<AccountCreateWebModel>get("accountDetail"));
                         } catch (Exception e) {
                             e.printStackTrace();
                             return "";
                         }
                     }))
-                    .check(status().is(201))
-            ).exec(http("Get Account")
-                    .post(session -> String.format("/accounts?accountNumber=%s&accountType=%s", session.<AccountCreateWebModel>get("accountDetails").accountNumber(), session.<AccountCreateWebModel>get("accountDetails").accountType().name()))
+                    .check(status().is(201)))
+            .pause(Duration.ofMillis(100))
+            .exec(http("Get Account")
+                    .get(session -> String.format("/accounts?accountNumber=%s&accountType=%s", session.<AccountCreateWebModel>get("accountDetail").accountNumber(), session.<AccountCreateWebModel>get("accountDetail").accountType().name()))
                     .header(HttpHeaders.AUTHORIZATION, session -> String.format("Bearer %s", session.getString("accessToken")))
-                    .body(StringBody(session -> {
-                        try {
-                            return toJson(session.get("accountDetail"));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            return "";
-                        }
-                    }))
                     .check(status().is(200))
             );
 

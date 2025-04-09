@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: gatling
-          image: adolfoecs/quarkus-template-gatling:1.0.2
+          image: adolfoecs/quarkus-template-gatling:1.0.7
           env:
             - name: KEYCLOAK_URL
               value: "http://keycloak:8080"
