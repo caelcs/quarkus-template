@@ -215,9 +215,17 @@ git push origin v1.0.15
 - Prometheus Operator installed. This would give you Prometheus and Grafana
 
 ```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
 helm install prometheus-operator prometheus-community/kube-prometheus-stack  \ 
   --set alertmanager.enabled=false \  
   --set prometheus.prometheusSpec.podMonitorSelector.matchLabels.team=backend
+```
+- CRD for Vertical scaling for Postgres
+```bash
+helm repo add fairwinds-stable https://charts.fairwinds.com/stable
+helm repo update
+helm install vpa fairwinds-stable/vpa
 ```
 
 ### Build & Push Gatling Image

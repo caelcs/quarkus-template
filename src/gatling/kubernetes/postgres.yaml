@@ -42,14 +42,13 @@ data:
     GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO quarkus;
     GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO quarkus;
 
-
 ---
-
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres
 spec:
+  serviceName: "postgres"
   replicas: 1
   selector:
     matchLabels:
@@ -61,7 +60,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:16-alpine
+          image: postgres:16
           args: ["-c", "max_connections=400"]
           ports:
             - containerPort: 5432
@@ -78,20 +77,24 @@ spec:
               cpu: "1"
             limits:
               memory: "8Gi"
-              cpu: "15"
+              cpu: "30"
           volumeMounts:
-            - name: postgres-data
+            - name: pgdata
               mountPath: /var/lib/postgresql/data
             - name: init-scripts
               mountPath: /docker-entrypoint-initdb.d
       volumes:
-        - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-data
         - name: init-scripts
           configMap:
             name: init-scripts
-
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
 ---
 
 apiVersion: v1
@@ -105,3 +108,25 @@ spec:
     app: postgres
 
 ---
+
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: postgres-vpa
+  namespace: default
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: postgres
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: postgres
+        minAllowed:
+          cpu: 500m
+          memory: 4Gi
+        maxAllowed:
+          cpu: 30
+          memory: 8Gi
