@@ -10,7 +10,6 @@ quarkus:
     binder:
       http-server:
         enabled: true
-        percentiles: 0.95,0.99
       vertx:
         enabled: true
 
