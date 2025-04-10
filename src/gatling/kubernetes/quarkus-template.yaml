@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: quarkus-app
-          image: adolfoecs/quarkus-template:v1.0.37
+          image: adolfoecs/quarkus-template:v1.0.38
           ports:
             - name: web
               containerPort: 8080

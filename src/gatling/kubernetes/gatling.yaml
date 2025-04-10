@@ -19,5 +19,5 @@ spec:
             - name: CONCURRENT_USERS
               value: "150"
             - name: DURATION
-              value: "200"
+              value: "400"
       restartPolicy: Never
