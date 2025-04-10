@@ -1,11 +1,17 @@
 quarkus:
 
+
   micrometer:
     enabled: true
     export:
       prometheus:
         enabled: true
         path: /q/metrics
+    binder:
+      http-server:
+        enabled: true
+      vertx:
+        enabled: true
 
   oidc:
     auth-server-url: ${keycloak.url}/realms/${keycloak.default.realm}
