@@ -17,7 +17,7 @@ class TransactionsConfigTest {
         Assertions.assertEquals(20L, transactionsConfig.connectionPoolSize());
         Assertions.assertEquals(50L, transactionsConfig.maxConnections());
         Assertions.assertEquals(60L, transactionsConfig.connectionTtl());
-        Assertions.assertEquals(10L, transactionsConfig.connectionTimeout());
+        Assertions.assertEquals(1L, transactionsConfig.connectionTimeout());
         Assertions.assertEquals(30L, transactionsConfig.idleTimeout());
     }
 }
