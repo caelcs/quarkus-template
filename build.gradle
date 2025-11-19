@@ -1,22 +1,12 @@
 plugins {
-    id("java")
-    id("io.quarkus")
-    id("com.github.spotbugs") version "6.1.7"
-    id("com.tngtech.jgiven.gradle-plugin") version "2.0.2"
-    id("com.github.ben-manes.versions") version "0.52.0"
-    id("io.gatling.gradle") version "3.13.5.2"
+    id 'java'
+    id 'io.quarkus'
+    id("com.github.spotbugs") version "6.4.5"
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
-}
-
-sourceSets {
-    gatling {
-        java.srcDirs = ["src/gatling/java"]
-        resources.srcDirs = ["src/gatling/resources"]
-    }
 }
 
 dependencies {
@@ -48,11 +38,9 @@ dependencies {
 
     testImplementation("com.tngtech.archunit:archunit:${archunitVersion}")
 
-    testImplementation 'org.apache.commons:commons-lang3:3.17.0'
-
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    implementation("org.projectlombok:lombok:${lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
-    testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+    testImplementation("org.projectlombok:lombok:${lombokVersion}")
     testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 
     nativeTestCompileOnly("org.projectlombok:lombok:${lombokVersion}")
@@ -66,26 +54,8 @@ dependencies {
     testImplementation("io.quarkiverse.wiremock:quarkus-wiremock:${quarkusWiremockVersion}")
     testImplementation("io.quarkiverse.wiremock:quarkus-wiremock-test:${quarkusWiremockVersion}")
 
-    compileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
-    testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
-    nativeTestCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
-
-    nativeTestImplementation('org.testcontainers:testcontainers')
-    nativeTestImplementation('org.testcontainers:junit-jupiter')
-    nativeTestImplementation('org.testcontainers:postgresql')
-    nativeTestImplementation('org.testcontainers:mockserver')
-    nativeTestImplementation 'com.github.dasniko:testcontainers-keycloak:3.6.0'
-
-    // Quarkus Testing
-    nativeTestImplementation('io.quarkus:quarkus-junit5')
-    nativeTestImplementation('io.rest-assured:rest-assured')
-
-
-    gatlingImplementation 'io.gatling:gatling-core:3.13.5'
-    gatlingImplementation 'io.gatling:gatling-http:3.13.5'
-    gatlingImplementation 'com.fasterxml.jackson.core:jackson-databind'
-    gatlingImplementation("jakarta.ws.rs:jakarta.ws.rs-api:4.0.0")
-    gatlingImplementation('io.rest-assured:rest-assured:5.5.1')
+    implementation("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
+    testImplementation("com.github.spotbugs:spotbugs-annotations:${spotBugsVersion}")
 }
 
 java {
