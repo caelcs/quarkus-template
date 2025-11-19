@@ -1,23 +1,28 @@
 package com.caelcs.adapter.in.rest.account;
 
+import static com.caelcs.adapter.out.rest.MDCClientRequestFilter.CORRELATION_ID;
+
+import java.util.UUID;
+
+import org.jboss.resteasy.reactive.NoCache;
+import org.jboss.resteasy.reactive.ResponseStatus;
+import org.slf4j.MDC;
+
 import com.caelcs.application.port.in.account.CreateAccountUseCase;
 import com.caelcs.application.port.in.account.GetAccountUseCase;
 import com.caelcs.application.port.out.persistence.account.AccountNotFoundException;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountType;
+
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
-import org.jboss.resteasy.reactive.NoCache;
-import org.jboss.resteasy.reactive.ResponseStatus;
-import org.slf4j.MDC;
-
-import java.util.UUID;
-
-import static com.caelcs.adapter.out.rest.MDCClientRequestFilter.CORRELATION_ID;
 
 @Path("accounts")
 @AllArgsConstructor

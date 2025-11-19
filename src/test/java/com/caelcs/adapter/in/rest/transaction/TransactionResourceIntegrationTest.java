@@ -1,5 +1,17 @@
 package com.caelcs.adapter.in.rest.transaction;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import com.caelcs.application.port.out.rest.transaction.TransactionResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponse;
 import com.caelcs.application.port.out.rest.transaction.TransactionsResponseMother;
@@ -7,6 +19,7 @@ import com.caelcs.model.account.AccountType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.quarkiverse.wiremock.devservice.ConnectWireMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -14,11 +27,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.junit.jupiter.api.Test;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 @ConnectWireMock
@@ -29,9 +37,6 @@ class TransactionResourceIntegrationTest {
 
     @Inject
     private ObjectMapper objectMapper;
-
-    @Inject
-    private TransactionResource resource;
 
     @Test
     void test_get_transactions_endpoint_success() throws JsonProcessingException {
