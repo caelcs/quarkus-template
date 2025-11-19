@@ -24,8 +24,5 @@ jobs:
           distribution: 'temurin'
           java-version: 25
 
-      - name: Dependencies check
-        run: ./gradlew dependencyUpdates
-
       - name:  Runs all checks
         run: ./gradlew clean check
