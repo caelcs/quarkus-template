@@ -1,11 +1,21 @@
 package com.caelcs.adapter.in.rest.account;
 
+import static io.restassured.RestAssured.given;
+import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
+
+import java.util.function.Consumer;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 import com.caelcs.application.port.out.persistence.account.AccountRepository;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountMother;
 import com.caelcs.model.account.AccountType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
@@ -13,18 +23,8 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.function.Consumer;
-
-import static io.restassured.RestAssured.given;
-import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 
 @QuarkusTest
-@SuppressFBWarnings(value = {"UwF", "NP"}, justification = "This list is safely managed elsewhere")
 @TestSecurity(user = "testuser", roles = {"user"})
 class AccountResourceIntegrationTest {
 
