@@ -1,27 +1,25 @@
 package com.caelcs.adapter.out.persistence.account;
 
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import com.caelcs.adapter.out.persistence.AccountRepositoryDefault;
-import com.caelcs.adapter.out.rest.transaction.TransactionsConfig;
 import com.caelcs.application.port.out.persistence.account.AccountEntity;
 import com.caelcs.model.account.Account;
 import com.caelcs.model.account.AccountMother;
 import com.caelcs.model.account.AccountType;
+
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 @QuarkusTest
 class AccountRepositoryDefaultTest {
 
     @Inject
     private AccountRepositoryDefault repository;
-
-    @Inject
-    private TransactionsConfig config;
 
     @Test
     @Transactional

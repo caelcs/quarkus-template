@@ -1,14 +1,13 @@
 package com.caelcs.application.service.account;
 
-import com.caelcs.application.dto.AccountDTO;
-import com.caelcs.application.port.out.persistence.account.AccountEntity;
-import com.caelcs.application.port.out.persistence.account.AccountEntityMother;
-import com.caelcs.application.port.out.persistence.account.AccountNotFoundException;
-import com.caelcs.application.port.out.persistence.account.AccountRepository;
-import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
-import com.caelcs.model.account.Account;
-import com.caelcs.model.account.AccountType;
-import jakarta.persistence.EntityNotFoundException;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,13 +17,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.caelcs.application.dto.AccountDTO;
+import com.caelcs.application.port.out.persistence.account.AccountEntity;
+import com.caelcs.application.port.out.persistence.account.AccountEntityMother;
+import com.caelcs.application.port.out.persistence.account.AccountNotFoundException;
+import com.caelcs.application.port.out.persistence.account.AccountRepository;
+import com.caelcs.application.port.out.rest.transaction.TransactionsClient;
+import com.caelcs.model.account.Account;
+import com.caelcs.model.account.AccountType;
 
 @ExtendWith(MockitoExtension.class)
 class CreateAccountServiceTest {
